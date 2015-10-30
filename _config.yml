@@ -1,7 +1,7 @@
 name: Hank Quinlan, Horrible Cop
 markdown: redcarpet2
 markdown_ext: markdown,mkdown,mkdn,mkd,md
-redcarpet:
+redcarpet2:
  extensions: ["tables", "autolink", "strikethrough", "space_after_headers", "with_toc_data", "fenced_code_blocks"]
 highlighter: pygments
 permalink: /blog/:year/:month/:day/:title
