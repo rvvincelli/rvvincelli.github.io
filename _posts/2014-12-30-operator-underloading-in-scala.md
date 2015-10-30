@@ -158,3 +158,4 @@ I've learned a great deal from studying Scala, and am very thankful for that. Sc
 
 In many ways, Scala is a grand, ambitious experiment; a very valuable one at that. (Studying Scala has been very useful for me, and has significantly expanded my horizons). A big part of that experiment, though, could be to answer the question, "Is it possible to achieve perfect typing?" As [this article shows](http://yz.mit.edu/wp/true-scala-complexity/) (especially see the *On Acknowledging Problems* section at the end of the article, and the [Ycombinator discussion](https://news.ycombinator.com/item?id=3443436)), the answer might be a descent into an infinitely recursive rabbit hole.
 
+
