@@ -37,9 +37,9 @@ exists on the topic already, somebody is actually consuming it, namely the guys 
 Let's focus now on the producer side, which we will show with the native Kafka APIs.
 
 First what will our messages look like? Here is a little case class: case classes are immutable by default and are therefore a good pick for distributed messages - for example this is the rule in [Akka](http://akka.io/).
-``` scala
+~~~ scala
 case class RichEvent(content: String)
-```
+~~~
 A producer may post freely to topics, so this is not part of its configuration, but a number of other properties must be configured:
 ``` scala
 ProducerConfig.BOOTSTRAP_SERVERS_CONFIG      -> "kafkabroker:9092",
