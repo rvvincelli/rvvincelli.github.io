@@ -37,11 +37,11 @@ exists on the topic already, somebody is actually consuming it, namely the guys 
 Let's focus now on the producer side, which we will show with the native Kafka APIs.
 
 First what will our messages look like? Here is a little case class: case classes are immutable by default and are therefore a good pick for distributed messages - for example this is the rule in [Akka](http://akka.io/).
-```scala
+``` scala
 case class RichEvent(content: String)
 ```
 A producer may post freely to topics, so this is not part of its configuration, but a number of other properties must be configured:
-```scala
+``` scala
 ProducerConfig.BOOTSTRAP_SERVERS_CONFIG      -> "kafkabroker:9092",
 ProducerConfig.ACKS_CONFIG                   -> "3",
 ProducerConfig.CLIENT_ID_CONFIG              -> "clientid",
@@ -72,7 +72,7 @@ In determining the acknowledgement behavior the following are also important:
 `KEY_SERIALIZER_CLASS_CONFIG`, `VALUE_SERIALIZER_CLASS_CONFIG`: Kafka messages are key-value pairs where the key is optional, the producer needs to know how to write them down on wire
 
 If `producer` is our Kafka configured producer (see on github for the details) all we need to do to send our message is:
-```scala
+``` scala
 producer.send(new ProducerRecord[String, RichEvent](topic, message))
 ```
 where `topic` is of course the board we write on and `message` an instance of `RichEvent`, wrapped in a Kafka record. A great thing is that the `send` method is threadsafe, this is actually mentioned
@@ -81,7 +81,7 @@ in the JavaDoc actually, so you can have a single instance and have it used conc
 It is worth to have a look at the value serializer. At the end it will just be bytes ok, but a really convenient way to get there is to transform in JSON first; this also makes it easier to debug as
 you see what you get, from the Kafka console tools too. For the purpose we will use [Argonaut](http://argonaut.io).
 
-```scala
+``` scala
 trait ArgonautSerializer[A] extends Serializer[A] {
 
   def encoder: EncodeJson[A]
@@ -98,7 +98,7 @@ use the system default in the encode above. Also nothing to close as our seriali
 
 The implementation for our domain object will be:
 
-```scala
+``` scala
 class RichEventSerializer extends ArgonautSerializer[RichEvent] with Codecs {
   def encoder = richEventCodec.Encoder
 }
@@ -106,7 +106,7 @@ class RichEventSerializer extends ArgonautSerializer[RichEvent] with Codecs {
 
 Where in `Codecs` we have a `richEventCodec` that is just an Argonaut casecodec, very convenient.
 Things are pretty much the same for the decoding part, where the contract method is:
-```scala
+``` scala
 def fromBytes(data: Array[Byte]) = Parse.decode(new String(data))(decoder).getOrElse { throw new ParseException(s"Invalid JSON: ${new String(data)}", 0) }
 ```
 
@@ -115,7 +115,7 @@ The consumer implemented here is a direct Spark consumer, defined with just one 
 the mapping between the number of topic partitions in Kafka and the partitions per Spark RDD is one-to-one, which is pretty cool as it bridges the two parallelism leverages in the libraries. Another
 important point is that with a direct bridge an *at-most-once* delivery guarantee is offered. How is it configured?
 
-```scala
+``` scala
 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG       -> "kafkabroker:9092",
 ConsumerConfig.GROUP_ID_CONFIG                -> "mygroup",
 ConsumerConfig.CLIENT_ID_CONFIG               -> "consumerid",
