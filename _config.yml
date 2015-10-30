@@ -1,7 +1,27 @@
-name: Hank Quinlan, Horrible Cop
-markdown: redcarpet
-markdown_ext: markdown,mkdown,mkdn,mkd,md
-highlighter: pygments
+timezone: America/Denver
+# Dependencies
+markdown:       redcarpet
 redcarpet:
- extensions: ["tables", "autolink", "strikethrough", "space_after_headers", "with_toc_data", "fenced_code_blocks"]
-permalink: /blog/:year/:month/:day/:title
+    extensions: ['smart']
+
+highlighter:         pygments
+fenced_code_blocks:  true
+
+# Permalinks
+#
+# Use of `relative_permalinks` ensures post links from the index work properly.
+permalink:           pretty
+relative_permalinks: true
+
+# Setup
+title:            Computing Thoughts
+tagline:          Bruce Eckel's Programming Blog
+url:              http://bruceeckel.github.io/
+paginate:            5
+baseurl:          /
+
+# About/contact
+author:
+  name:           Bruce Eckel
+  url:            http://www.mindviewinc.com
+  email:          mindviewinc@gmail.com
