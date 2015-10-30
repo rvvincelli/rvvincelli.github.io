@@ -1,5 +1,5 @@
 name: Hank Quinlan, Horrible Cop
-markdown: redcarpet
-redcarpet:
-  extensions: ["tables", "autolink", "strikethrough", "space_after_headers", "with_toc_data", "fenced_code_blocks"]
+markdown: kramdown
+kramdown:
+ input: GFM
 permalink: /blog/:year/:month/:day/:title
