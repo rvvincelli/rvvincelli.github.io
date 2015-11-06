@@ -73,9 +73,9 @@ In determining the acknowledgement behavior the following are also important:
    `retry.backoff.ms`; enabling resend breaks the property that messages are always available in-order at the broker site for the producers to consume, as well as at-most-once delivery
   * `request.timeout.ms` defines the time the master broker waits for the fulfillment of the acknowledgement mode chosen by the client, returning an error to it once this timeout elapses
 
- * `CLIENT_ID`: the client ID does not play a role in the Kafka protocol yet it may be useful for debug; it should identify the producer instance univocally
+* `CLIENT_ID`: the client ID does not play a role in the Kafka protocol yet it may be useful for debug; it should identify the producer instance univocally
 
- * `KEY_SERIALIZER_CLASS_CONFIG`, `VALUE_SERIALIZER_CLASS_CONFIG`: Kafka messages are key-value pairs where the key is optional, the producer needs to know how to write them down on wire
+* `KEY_SERIALIZER_CLASS_CONFIG`, `VALUE_SERIALIZER_CLASS_CONFIG`: Kafka messages are key-value pairs where the key is optional, the producer needs to know how to write them down on wire
 
 If `producer` is our Kafka configured producer (see on github for the details) all we need to do to send our message is:
 
