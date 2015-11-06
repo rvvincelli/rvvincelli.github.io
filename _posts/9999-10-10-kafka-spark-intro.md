@@ -35,7 +35,7 @@ exists on the topic already, somebody is actually consuming it, namely the guys 
  * anything else throws an exception  
 
 
-Let's focus now on the producer side, which we will show with the native Kafka APIs.
+Let's focus now on the producer side, which we will show with the native Kafka APIs. All of the code is available [here](https://github.com/rvvincelli/kafkasparkexample).
 
 First what will our messages look like? Here is a little case class: case classes are immutable by default and are therefore a good pick for distributed messages - for example this is the rule in [Akka](http://akka.io/).
 
@@ -155,3 +155,5 @@ If your consumer application is modeled as an [Akka](http://akka.io) actor then 
 and if you have instead a simple main you may want to use `streamingContext.start()` followed by `streamingContext.awaitTermination()`.
 
 Empty queue, that's all!
+
+[`git checkout`](https://github.com/rvvincelli/kafkasparkexample) the code!
