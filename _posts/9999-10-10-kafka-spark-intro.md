@@ -41,6 +41,7 @@ First what will our messages look like? Here is a little case class: case classe
 case class RichEvent(content: String)
 ```
 A producer may post freely to topics, so this is not part of its configuration, but a number of other properties must be configured:
+
 ```scala
 ProducerConfig.BOOTSTRAP_SERVERS_CONFIG      -> "kafkabroker:9092",
 ProducerConfig.ACKS_CONFIG                   -> "3",
@@ -48,6 +49,7 @@ ProducerConfig.CLIENT_ID_CONFIG              -> "clientid",
 ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG   -> "org.apache.kafka.common.serialization.StringSerializer",
 ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG -> "io.github.rvvincelli.blogpost.kafkaspark.RichEventSerializer"
 ```
+
 `BOOTSTRAP_SERVERS_CONFIG`: the Kafka broker the producer talks to after startup in order to coordinate the information needed to post its messages; it acts as configuration bootstrap node as the
 as the name suggests; multiple values can be specified
 
