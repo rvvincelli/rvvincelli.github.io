@@ -14,10 +14,10 @@ only. See the documentation for more info.
 
 Here's a picture:
 
- * the producer starts sending out messages under a certain topic
- * the cluster receives such messages and stores them in on of the partitions (the default partitions number is configurable, see above)
- * a consumer connects to the cluster and asks the messages for a topic; as the server feeds the messages it keeps track of a counter, the *offset*, associated with the topic and the consumer group identifier
- * when a consumer connects, if an offset is available for its group, it is fed the messages from the known offset on; if not, `auto.offset.reset` in the consumer defines what to do (not exposed now)
+ 1. the producer starts sending out messages under a certain topic
+ 2. the cluster receives such messages and stores them in on of the partitions (the default partitions number is configurable, see above)
+ 3. a consumer connects to the cluster and asks the messages for a topic; as the server feeds the messages it keeps track of a counter, the *offset*, associated with the topic and the consumer group identifier
+ 4. when a consumer connects, if an offset is available for its group, it is fed the messages from the known offset on; if not, `auto.offset.reset` in the consumer defines what to do (not exposed now)
 
 But let's check out a more complex scenario too, taking into account the particular Kafka protocol a little too.
 
