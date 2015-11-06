@@ -55,7 +55,8 @@ ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG -> "io.github.rvvincelli.blogpost.k
 `BOOTSTRAP_SERVERS_CONFIG`: the Kafka broker the producer talks to after startup in order to coordinate the information needed to post its messages; it acts as configuration bootstrap node as the
 as the name suggests; multiple values can be specified
 
-`ACKS_CONFIG`: Kafka supports different styles of acknowledgement
+`ACKS_CONFIG`: Kafka supports different styles of acknowledgement:
+
  * `request.required.acks` set to `0`; *no ack*, the producer sends messages in a *fire and forget* fashion, thus not caring about the actual delivery status; this is the default behavior 
  * `request.required.acks` is `1`; master replica only, the producer only waits for master replica confirmation feedback; the acknowledged message might still go lost anyway in case the master fails
     without propagating the message to the rest of the brokers; this is `n`-generalizable in the sense that we may choose to wait for the acknowledgement from `n` brokers, master included  
@@ -67,15 +68,16 @@ the following are important:
 
 In determining the acknowledgement behavior the following are also important:
 
- * `retries` defines how many attempts the producer makes after a transient (non fatal) send error, eg an acknowledgement failure notice from the server; a backoff interval can be defined as well via
+ ** `retries` defines how many attempts the producer makes after a transient (non fatal) send error, eg an acknowledgement failure notice from the server; a backoff interval can be defined as well via
    `retry.backoff.ms`; enabling resend breaks the property that messages are always available in-order at the broker site for the producers to consume, as well as at-most-once delivery
- * `request.timeout.ms` defines the time the master broker waits for the fulfillment of the acknowledgement mode chosen by the client, returning an error to it once this timeout elapses
+ ** `request.timeout.ms` defines the time the master broker waits for the fulfillment of the acknowledgement mode chosen by the client, returning an error to it once this timeout elapses
 
-`CLIENT_ID`: the client ID does not play a role in the Kafka protocol yet it may be useful for debug; it should identify the producer instance univocally
+*`CLIENT_ID`: the client ID does not play a role in the Kafka protocol yet it may be useful for debug; it should identify the producer instance univocally
 
-`KEY_SERIALIZER_CLASS_CONFIG`, `VALUE_SERIALIZER_CLASS_CONFIG`: Kafka messages are key-value pairs where the key is optional, the producer needs to know how to write them down on wire
+*`KEY_SERIALIZER_CLASS_CONFIG`, `VALUE_SERIALIZER_CLASS_CONFIG`: Kafka messages are key-value pairs where the key is optional, the producer needs to know how to write them down on wire
 
 If `producer` is our Kafka configured producer (see on github for the details) all we need to do to send our message is:
+
 ```scala
 producer.send(new ProducerRecord[String, RichEvent](topic, message))
 ```
@@ -110,6 +112,7 @@ class RichEventSerializer extends ArgonautSerializer[RichEvent] with Codecs {
 
 Where in `Codecs` we have a `richEventCodec` that is just an Argonaut casecodec, very convenient.
 Things are pretty much the same for the decoding part, where the contract method is:
+
 ```scala
 def fromBytes(data: Array[Byte]) = Parse.decode(new String(data))(decoder).getOrElse { throw new ParseException(s"Invalid JSON: ${new String(data)}", 0) }
 ```
@@ -128,15 +131,17 @@ ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG -> "10000",
 ConsumerConfig.AUTO_OFFSET_RESET_CONFIG       -> "smallest"
 ```
 
-`BOOTSTRAP_SERVERS_CONFIG`: see above, this is needed as the direct receiver explicitly deals with the Kafka metadata.
-`GROUP_ID_CONFIG`: important configuration for the consumer, as explained above 
-`ENABLE_AUTO_COMMIT_CONFIG`: confirm to Kafka for the messages read so that it can move the offset on; important as the offset determines the next message that will be served
-`AUTO_COMMIT_INTERVAL_MS_CONFIG`: how often to commit for the read messages
-`AUTO_OFFSET_RESET_CONFIG`: defines the behavior when an unseen consumer first connects (see above)
+ * `BOOTSTRAP_SERVERS_CONFIG`: see above, this is needed as the direct receiver explicitly deals with the Kafka metadata.
+ * `GROUP_ID_CONFIG`: important configuration for the consumer, as explained above 
+ * `ENABLE_AUTO_COMMIT_CONFIG`: confirm to Kafka for the messages read so that it can move the offset on; important as the offset determines the next message that will be served
+ * `AUTO_COMMIT_INTERVAL_MS_CONFIG`: how often to commit for the read messages
+ * `AUTO_OFFSET_RESET_CONFIG`: defines the behavior when an unseen consumer first connects (see above)
 
 The consumer stream is pretty easy to setup:
 
-`val consumer = KafkaUtils.createDirectStream[String, RichEvent, StringDecoder, RichEventDeserializer](streamingContext, consProps, Set(topic))`
+```scala
+val consumer = KafkaUtils.createDirectStream[String, RichEvent, StringDecoder, RichEventDeserializer](streamingContext, consProps, Set(topic))
+```
 
 where `streamingContext` is of type `StreamingContext`, `consProps` are the consumer properties above.
 
@@ -148,3 +153,4 @@ on you'll get infamous serialization errors, but this applies to Spark in genera
 If your consumer application is modeled as an [Akka](http://akka.io) actor then `streamingContext.start()` and `streamingContext.stop()` should be in your actor's `preStart()` and `postStop()` methods
 and if you have instead a simple main you may want to use `streamingContext.start()` followed by `streamingContext.awaitTermination()`.
 
+Empty queue, that's all!
