@@ -13,6 +13,7 @@ partitions lead to more throughput as Kafka allows only one single thread to att
 only. See the documentation for more info.
 
 Here's a picture:
+
  1. the producer starts sending out messages under a certain topic
  2. the cluster receives such messages and stores them in on of the partitions (the default partitions number is configurable, see above)
  3. a consumer connects to the cluster and asks the messages for a topic; as the server feeds the messages it keeps track of a counter, the *offset*, associated with the topic and the consumer group identifier
