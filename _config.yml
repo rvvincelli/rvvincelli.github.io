@@ -14,15 +14,14 @@ permalink:           pretty
 relative_permalinks: true
 
 # Setup
-title:            Computing Thoughts
-tagline:          Bruce Eckel's Programming Blog
-url:              http://bruceeckel.github.io/
-paginate:            5
+title:            thin line between info and data
+tagline:          r.v. vincelli pages
+url:              http://rvvincelli.github.io/
+paginate:         5
 baseurl:          /
 
 # About/contact
 author:
-  name:           Bruce Eckel
-  url:            http://www.mindviewinc.com
-  email:          mindviewinc@gmail.com
+  name:           Riccardo V. Vincelli
+  email:          ReimOne@Gmail.com
 
