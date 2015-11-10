@@ -1,8 +1,8 @@
 ##Integrating Kafka with Spark - hands on
 
 As you all know already [Apache Kafka](http://kafka.apache.org) is a distributed publisher-subscriber system capable of handling quite heavy loads and throughputs too - which turns out to be not
-just another *BDBC* (Big Data Big Claim) given that the project started at Linkedin, is widely adopted and supported by Cloudera, among others. Spark is getting real momentum these days so no need
-for introduction, and a really interesting module is Spark Streaming, which allows to feed the application a live data stream to be processed in a batch-window fashion with the usual Spark functional
+just another *BDBC* (Big Data Big Claim) given that the project started at [Linkedin](http://www.linkedin.com), is widely adopted and supported by [Cloudera](http://www.cloudera.com), among others. [Spark](http://spark.apache.org) is getting real momentum these days so no need
+for introduction, and a really interesting module is [Spark Streaming](http://spark.apache.org/streaming), which allows to feed the application a live data stream to be processed in a batch-window fashion with the usual Spark functional
 -like operations. The integration comes quite easy and we go through a small example now.
 
 ###Kafka what?
@@ -10,13 +10,13 @@ for introduction, and a really interesting module is Spark Streaming, which allo
 In a nutshell, Kafka is a producer-consumer system, the producer, identified by some ID, sends a message labeled with a topic to the broker, which gets in turn subscriptions from a consumer. You can
 of course have multiple instances for each of these three roles. The basic unity of parallelism in Kafka is the partition number for topic (`num.partitions`, configurable on the cluster); briefly, more
 partitions lead to more throughput as Kafka allows only one single thread to attach to a given partition. An important point is that the message set is totally ordered with respect to a partition
-only. See the documentation for more info.
+only. See the [documentation](http://kafka.apache.org/documentation.html) for more info.
 
 Here's a picture:
 
  1. the producer starts sending out messages under a certain topic
- 2. the cluster receives such messages and stores them in on of the partitions (the default partitions number is configurable, see above)
- 3. a consumer connects to the cluster and asks the messages for a topic; as the server feeds the messages it keeps track of a counter, the *offset*, associated with the topic and the consumer group identifier
+ 2. the cluster receives such messages and stores them in one of the partitions (the default partitions number is configurable, see above)
+ 3. a consumer connects to the cluster and asks for the messages for a topic; as the server feeds the messages it keeps track of a counter, the *offset*, associated with the topic and the consumer group identifier
  4. when a consumer connects, if an offset is available for its group, it is fed the messages from the known offset on; if not, `auto.offset.reset` in the consumer defines what to do (not exposed now)
 
 But let's check out a more complex scenario too, taking into account the particular Kafka protocol a little too.
@@ -67,8 +67,6 @@ as the name suggests; multiple values can be specified
 It is important to notice that acknowledgement feeds may interfere with the order of the messages as received on the broker side. Also, the management is all internal but in determining the behavior
 the following are important:
 
-In determining the acknowledgement behavior the following are also important:
-
   * `retries` defines how many attempts the producer makes after a transient (non fatal) send error, eg an acknowledgement failure notice from the server; a backoff interval can be defined as well via
    `retry.backoff.ms`; enabling resend breaks the property that messages are always available in-order at the broker site for the producers to consume, as well as at-most-once delivery
   * `request.timeout.ms` defines the time the master broker waits for the fulfillment of the acknowledgement mode chosen by the client, returning an error to it once this timeout elapses
@@ -100,7 +98,7 @@ trait ArgonautSerializer[A] extends Serializer[A] {
 
 }
 ```  
-`serialize` is the `Serializer` Kafka trait contract - make the value of type A a JSON string and binarize it, in our case. We don't configure anything, we could expect the charset but let's just
+`serialize` is the `Serializer` Kafka trait contract - make the value of type `A` a JSON string and binarize it, in our case. We don't configure anything, we could expect the charset but let's just
 use the system default in the encode above. Also nothing to close as our serializer trait will be stateless - you should make sure you close internal resources here.
 
 The implementation for our domain object will be:
