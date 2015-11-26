@@ -3,6 +3,8 @@ layout: post
 title: Play! with Kafka
 ---
 
+{% include google_analytics.html %}
+
 ##Play! with Kafka
 
 #Behind the scenes

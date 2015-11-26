@@ -3,6 +3,8 @@ layout: post
 title: Kafka & Spark
 ---
 
+{% include google_analytics.html %}
+
 ##Integrating Kafka with Spark - hands on
 
 As you all know already [Apache Kafka](http://kafka.apache.org) is a distributed publisher-subscriber system capable of handling quite heavy loads and throughputs too - which turns out to be not
