@@ -5,7 +5,7 @@ title: Play! with Kafka
 
 {% include google_analytics.html %}
 
-##Play! with Kafka
+##A small Play! websocket service backed up by Kafka
 
 ###Behind the scenes
 
