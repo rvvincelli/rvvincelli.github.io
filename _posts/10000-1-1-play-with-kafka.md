@@ -31,6 +31,7 @@ GET /kafka/:topics         io.github.rvvincelli.blogpost.playwithkafka.controlle
 So a GET where the argument is a list of topics, comma or colon separated for example, which supports a batch size and indicates whether to fetch all of the messages posted on the topic or only those
 incoming after we start to listen.
 We implement now our controller:
+
 ```scala
 object PlayWithKafkaConsumerApp extends Controller with KafkaConsumerParams {
 
@@ -58,33 +59,39 @@ different, the designers expose the possibility to define arbitrary conversions 
 is explained and worked out [here](https://www.playframework.com/documentation/2.3.x/ScalaWebSockets#Handling-different-types-of-messages).
 
 KafkaConsumerParams is a configuration trait for a Kafka consumer we have
-introduced in the {% post_url 9999-10-10-kafka-spark-intro %}. The `withKafkaConf` is a utility method to pass along the configuration parameters for the actor service `PlayWithKafkaConsumer`; these configuration
+introduced [in the previous post](http://rvvincelli.github.io/9999/10/10/kafka-spark-intro/). The `withKafkaConf` is a utility method to pass along the configuration parameters for the actor service `PlayWithKafkaConsumer`; these configuration
 parameters define the Kafka messaging behavior. In particular:
-* `topics`: a list of comma-separated topic names - we can set up streams for multiple topics in the same line
-* `batchSize`: how many single Kafka messages we pack together and send to the client
-* `fromFirstMessage`: for the client, whether to fetch all of the messages on the topic, or just retrieve those coming in after its connection  
+
+ * `topics`: a list of comma-separated topic names - we can set up streams for multiple topics in the same line
+ * `batchSize`: how many single Kafka messages we pack together and send to the client
+ * `fromFirstMessage`: for the client, whether to fetch all of the messages on the topic, or just retrieve those coming in after its connection  
+
 See below for a few more points on these configuration properties.
 
 And now to where the action is, `PlayWithKafkaConsumer`. Most importantly, let's setup the stream. To do this we first create a high-level consumer:
+
 ```scala
 val consumer = Consumer.create(new ConsumerConfig(consumerSettings))
 ```
+
 and configure the topic consumption:
+
 ```scala
 val topicThreads = topics.map { _ -> 1 }.toMap[String, Int]
 ```
+
 where `1` defines the number of streams we request for the topic. Under the hood this defines the number of threads will be employed by the consumer, and is not related to the number of partitions on
 the topic; see the comments to [this](http://ingest.tips/2014/10/12/kafka-high-level-consumer-frequently-missing-pieces/) post for illuminating details. The takeaway is that this is not the number
 of topic partitions and, no matter how many threads we attach to a partition, Kafka will automatically serve all of them always respecting the rule that a partition may be served to at most one single
-consumer for a given group - at least as of version 0.8.1.1. As a reminder, the number of partitions per topic is a cluster-side configuration property.
+consumer for a given group - at least as of version 0.8.1.1. As a reminder, the number of partitions per topic is a cluster/broker side configuration property.
 
 The next step will be to actually create the streams:
+
 ```scala
 val streams: List[(String, List[KafkaStream[String, RichEvent]])] = consumer.createMessageStreams[String, RichEvent](topicThreads, new StringDecoder(), new RichEventDeserializer()).toList
 ```
 
-
-
+so nothing complicateds, we provide the number of threads per topic defined above and a pair of Kafka decoders for the key and value (the same we introduced in the previous post).
 
 And now to the core:
 
