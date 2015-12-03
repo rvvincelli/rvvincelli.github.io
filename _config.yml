@@ -2,7 +2,7 @@ timezone: America/Denver
 # Dependencies
 markdown:       redcarpet
 redcarpet:
-    extensions: ['smart']
+    extensions: ['smart', 'tables']
 
 highlighter:         pygments
 fenced_code_blocks:  true
