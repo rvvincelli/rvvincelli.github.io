@@ -29,7 +29,7 @@ We define the *filtering problem* as the estimation of the current state value !
 
 computed in two steps:
 
-* prediction, calculate ![]({{ site.url }}/assets/imgs/superbeis2.png?raw=true), the prior over ![]({{ site.url }}/assets/imgs/1.png) before receiving the evidence score ![]({{ site.url }}/assets/imgs/et.png) in the...
+* prediction, calculate ![](assets/imgs/superbeis2.png?raw=true), the prior over ![]({{ site.url }}/assets/imgs/1.png) before receiving the evidence score ![]({{ site.url }}/assets/imgs/et.png) in the...
 
 * update, the posterior on ![]({{ site.url }}/assets/imgs/1.png) is obtained by direct application of the Bayes rule
 
