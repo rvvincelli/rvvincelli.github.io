@@ -13,11 +13,11 @@ inline with ![alt text](http://monosnap.com/image/bOcxxxxLGF.png "Title")
 
 ---latex---: ![State at time `t`]({{ site.url }}/assets/imgs/1.png), we define our hidden state at time `t` as a random variable; the process unfolds as an infinite sequence ![States]({{ site.url }}/assets/imgs/2.png) of such variables 
  
----latex---: Markov rule: P(X_t|X_0,...,X_t-1)=P(X_t|X_t-1). This is the so called *memorylessness*, we just look at the immediately preceding state to pontificate on the one to come
+---latex---: Markov rule: ![Marco]({{ site.url }}/assets/imgs/3.png). This is the so called *memorylessness*, we just look at the immediately preceding state to pontificate on the one to come
 
----latex---: Evolution: at every step t for every pair of states (i,j), in a possibly continuous space, we pass from state i to state j with probability PP(X_t=j|X_t-1=i)
+---latex---: Evolution: at every step `t` for every pair of states `(i,j)`, in a possibly continuous space, we pass from state i to state j with probability ![pjs]({{ site.url }}/assets/imgs/4.png)
 
----latex---: At every step we read a value from the indicator variable, whose response is supposed to be meaningfully linked to the hidden state, so something like P(X_t=i|E_k=e) for every state-evidence pair (i, e)
+---latex---: At every step we read a value from the indicator variable, whose response is supposed to be meaningfully linked to the hidden state, so something likep ![]({{ site.url }}/assets/imgs/5.png) for every state-evidence pair (i, e)
 
 In the worst case scenarios (read as: always in real-life) the evolution probabilities may not be easily estimated. In:
 
