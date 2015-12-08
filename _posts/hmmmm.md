@@ -8,9 +8,6 @@ It is a rather common real-life situation one where some piece of information ca
  And very common applications always have very cool, and established, models. The model of reference here is that of [hidden Markov models](https://en.wikipedia.org/wiki/Hidden_Markov_model) and you
  can find of course pages galore on the topic. In a nutshell:
 
-use sandbox https://en.wikipedia.org/w/index.php?title=Wikipedia:Sandbox&action=submit
-inline with ![alt text](http://monosnap.com/image/bOcxxxxLGF.png "Title")
-
 * ![]({{ site.url }}/assets/imgs/1.png), we define our hidden state at time ![]({{ site.url }}/assets/imgs/t.png) as a random variable; the process unfolds as an infinite sequence ![]({{ site.url }}/assets/imgs/2.png) of such variables 
  
 * Markov rule: ![]({{ site.url }}/assets/imgs/3.png). This is the so called *memorylessness*, we just look at the immediately preceding state to pontificate on the one to come
@@ -32,7 +29,7 @@ We define the *filtering problem* as the estimation of the current state value !
 
 computed in two steps:
 
-* prediction, calculate ![]({{ site.url }}/assets/imgs/superbeis2.png), the prior over ![]({{ site.url }}/assets/imgs/1.png) before receiving the evidence score ![]({{ site.url }}/assets/imgs/et.png) in the...
+* prediction, calculate ![]({{ site.url }}/assets/imgs/superbeis2.png?raw=true), the prior over ![]({{ site.url }}/assets/imgs/1.png) before receiving the evidence score ![]({{ site.url }}/assets/imgs/et.png) in the...
 
 * update, the posterior on ![]({{ site.url }}/assets/imgs/1.png) is obtained by direct application of the Bayes rule
 
