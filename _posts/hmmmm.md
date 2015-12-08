@@ -11,28 +11,30 @@ It is a rather common real-life situation one where some piece of information ca
 use sandbox https://en.wikipedia.org/w/index.php?title=Wikipedia:Sandbox&action=submit
 inline with ![alt text](http://monosnap.com/image/bOcxxxxLGF.png "Title")
 
----latex---: ![State at time `t`]({{ site.url }}/assets/imgs/1.png), we define our hidden state at time `t` as a random variable; the process unfolds as an infinite sequence ![States]({{ site.url }}/assets/imgs/2.png) of such variables 
+* ![]({{ site.url }}/assets/imgs/1.png), we define our hidden state at time ![]({{ site.url }}/assets/imgs/t.png) as a random variable; the process unfolds as an infinite sequence ![]({{ site.url }}/assets/imgs/2.png) of such variables 
  
----latex---: Markov rule: ![Marco]({{ site.url }}/assets/imgs/3.png). This is the so called *memorylessness*, we just look at the immediately preceding state to pontificate on the one to come
+* Markov rule: ![]({{ site.url }}/assets/imgs/3.png). This is the so called *memorylessness*, we just look at the immediately preceding state to pontificate on the one to come
 
----latex---: Evolution: at every step `t` for every pair of states `(i,j)`, in a possibly continuous space, we pass from state i to state j with probability ![pjs]({{ site.url }}/assets/imgs/4.png)
+* Evolution: at every step `t` for every pair of states ![]({{ site.url }}/assets/imgs/ij.png), in a possibly continuous space, we pass from state ![]({{ site.url }}/assets/imgs/i.png) to state ![]({{ site.url }}/assets/imgs/j.png) with probability ![]({{ site.url }}/assets/imgs/4.png)
 
----latex---: At every step we read a value from the indicator variable, whose response is supposed to be meaningfully linked to the hidden state, so something likep ![]({{ site.url }}/assets/imgs/5.png) for every state-evidence pair (i, e)
+* At every step we read a value from the indicator variable, whose response is supposed to be meaningfully linked to the hidden state, so something likep ![]({{ site.url }}/assets/imgs/5.png) for every state-evidence pair ![]({{ site.url }}/assets/imgs/ie.png) 
 
 In the worst case scenarios (read as: always in real-life) the evolution probabilities may not be easily estimated. In:
 
----latex---: X_t=f_t(X_t-1,W_t-1)
+![]({{ site.url }}/assets/imgs/6.png)
 
-where W models noise on the states, may be nonlinear and time-dependent. The same in general can be said of a function h_k relating the evidence to the hidden state.
+where ![]({{ site.url }}/assets/imgs/7.png) models noise on the states, may be nonlinear and time-dependent. The same in general can be said of a function ![]({{ site.url }}/assets/imgs/8.png) relating the evidence to the hidden state.
 
-We define the *filtering problem* as the estimation of the current state x_t given the previous state x_t-1 and all of the previous pieces of evidence e_1,...,e_t-1. In a regular
+We define the *filtering problem* as the estimation of the current state value ![]({{ site.url }}/assets/imgs/xt.png) given the previous state ![]({{ site.url }}/assets/imgs/xtmin.png) and all of the previous pieces of evidence ![]({{ site.url }}/assets/imgs/es.png). In a regular
 [bayesian](https://en.wikipedia.org/wiki/Bayes_theorem) the estimation of the state is actually a probability distribution:
-P(X_t|E_1,...,E_t-1)
+
+![]({{ site.url }}/assets/imgs/superbeis.png)
+
 computed in two steps:
 
-*prediction, calculate P(X_t|E_1,...,E_t-1), the prior over X_t before receiving the evidence score e_t in the...
+* prediction, calculate ![]({{ site.url }}/assets/imgs/superbeis2.png), the prior over ![]({{ site.url }}/assets/imgs/1.png) before receiving the evidence score ![]({{ site.url }}/assets/imgs/et.png) in the...
 
-*update, the posterior on X_t is obtained by direct application of the Bayes rule
+* update, the posterior on ![]({{ site.url }}/assets/imgs/1.png) is obtained by direct application of the Bayes rule
 
 These two steps all boil down to integrals, which we don't expect to be amenable analytically. So what do we do? If we can't snipe the target then let's just shoot around at random - that's the
 spirit of the so-called [Monte Carlo](https://en.wikipedia.org/wiki/Monte_Carlo_method) methods! An option is the *bootstrap particle filtering*. The *particle* in it refers to the fact that we
@@ -41,20 +43,20 @@ with replacement. The point here is that the particles, at every step, represent
 
 It turns out that the algorithm is pretty simple:
 
-1. Extract n samples from the initial prior X_0, these are our particles P_0={x_00, x_01, ... x_0n}; these particles are realizations of the variable X_0
+1. Extract ![]({{ site.url }}/assets/imgs/n.png) samples from the initial prior ![]({{ site.url }}/assets/imgs/X0.png), these are our particles ![]({{ site.url }}/assets/imgs/parts.png); these particles are realizations of the variable ![]({{ site.url }}/assets/imgs/X0.png)
 
-2. For each particle in P_i sample P(X_t|X_t-1), so basically choose how to evolve each sample according to the f_t above
+2. For each particle in ![]({{ site.url }}/assets/imgs/Pt.png) sample ![]({{ site.url }}/assets/imgs/tobesampled.png), so basically choose how to evolve each sample according to the ![]({{ site.url }}/assets/imgs/ft.png) above
 
-3. How likely is each evolution? Lookup every score with the evidence function h_j, which is sampling the distribution P(X_t|E_t); these values may be one-normalized and represent a weighthing on
+3. How likely is each evolution? Lookup every score with the evidence function ![]({{ site.url }}/assets/imgs/8.png), which is sampling the distribution ![]({{ site.url }}/assets/imgs/distro.png); these values may be one-normalized and represent a weighthing on
 the particles population
 
 4. Bootstrap step, resample with replacement according to the weights; this prepares the population of particles for the next iteration
 
 In the case of discrete distributions, all of the information may be conveniently encoded in matrices and vectors:
 
-* a matrix M_ij where the value is the probability of transitioning from state i into state j
+* a matrix ![]({{ site.url }}/assets/imgs/mij.png) where the value is the probability of transitioning from state ![]({{ site.url }}/assets/imgs/i.png) into state ![]({{ site.url }}/assets/imgs/j.png)
 
-* a matrix E_kl where the value is the probability of the hidden state k given the observable state l
+* a matrix ![]({{ site.url }}/assets/imgs/ekl.png) where the value is the probability of the hidden state ![]({{ site.url }}/assets/imgs/k.png) given the observable state ![]({{ site.url }}/assets/imgs/l.png)
 
 The code is pretty simple, let's have a look around with [Mathematica](https://www.wolfram.com/mathematica). What we want is a program to create and evolve a family of particles, representing the
 target distribution, as described above. Let's stick to an all-discrete world. The signature may simply be:
