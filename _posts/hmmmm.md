@@ -8,30 +8,30 @@ It is a rather common real-life situation one where some piece of information ca
  And very common applications always have very cool, and established, models. The model of reference here is that of [hidden Markov models](https://en.wikipedia.org/wiki/Hidden_Markov_model) and you
  can find of course pages galore on the topic. In a nutshell:
 
-* ![]({{ site.url }}/assets/imgs/1.png), we define our hidden state at time ![]({{ site.url }}/assets/imgs/t.png) as a random variable; the process unfolds as an infinite sequence ![]({{ site.url }}/assets/imgs/2.png) of such variables 
+* ![](../assets/imgs/1.png?raw=true), we define our hidden state at time ![](../assets/imgs/t.png?raw=true) as a random variable; the process unfolds as an infinite sequence ![](../assets/imgs/2.png?raw=true) of such variables 
  
-* Markov rule: ![]({{ site.url }}/assets/imgs/3.png). This is the so called *memorylessness*, we just look at the immediately preceding state to pontificate on the one to come
+* Markov rule: ![](../assets/imgs/3.png?raw=true). This is the so called *memorylessness*, we just look at the immediately preceding state to pontificate on the one to come
 
-* Evolution: at every step `t` for every pair of states ![]({{ site.url }}/assets/imgs/ij.png), in a possibly continuous space, we pass from state ![]({{ site.url }}/assets/imgs/i.png) to state ![]({{ site.url }}/assets/imgs/j.png) with probability ![]({{ site.url }}/assets/imgs/4.png)
+* Evolution: at every step `t` for every pair of states ![](../assets/imgs/ij.png?raw=true), in a possibly continuous space, we pass from state ![](../assets/imgs/i.png?raw=true) to state ![](../assets/imgs/j.png?raw=true) with probability ![](../assets/imgs/4.png?raw=true)
 
-* At every step we read a value from the indicator variable, whose response is supposed to be meaningfully linked to the hidden state, so something likep ![]({{ site.url }}/assets/imgs/5.png) for every state-evidence pair ![]({{ site.url }}/assets/imgs/ie.png) 
+* At every step we read a value from the indicator variable, whose response is supposed to be meaningfully linked to the hidden state, so something likep ![](../assets/imgs/5.png?raw=true) for every state-evidence pair ![](../assets/imgs/ie.png?raw=true) 
 
 In the worst case scenarios (read as: always in real-life) the evolution probabilities may not be easily estimated. In:
 
-![]({{ site.url }}/assets/imgs/6.png)
+![](../assets/imgs/6.png?raw=true)
 
-where ![]({{ site.url }}/assets/imgs/7.png) models noise on the states, may be nonlinear and time-dependent. The same in general can be said of a function ![]({{ site.url }}/assets/imgs/8.png) relating the evidence to the hidden state.
+where ![](../assets/imgs/7.png?raw=true) models noise on the states, may be nonlinear and time-dependent. The same in general can be said of a function ![](../assets/imgs/8.png?raw=true) relating the evidence to the hidden state.
 
-We define the *filtering problem* as the estimation of the current state value ![]({{ site.url }}/assets/imgs/xt.png) given the previous state ![]({{ site.url }}/assets/imgs/xtmin.png) and all of the previous pieces of evidence ![]({{ site.url }}/assets/imgs/es.png). In a regular
+We define the *filtering problem* as the estimation of the current state value ![](../assets/imgs/xt.png?raw=true) given the previous state ![](../assets/imgs/xtmin.png?raw=true) and all of the previous pieces of evidence ![](../assets/imgs/es.png?raw=true). In a regular
 [bayesian](https://en.wikipedia.org/wiki/Bayes_theorem) the estimation of the state is actually a probability distribution:
 
-![]({{ site.url }}/assets/imgs/superbeis.png)
+![](../assets/imgs/superbeis.png?raw=true)
 
 computed in two steps:
 
-* prediction, calculate ![](../assets/imgs/superbeis2.png?raw=true), the prior over ![]({{ site.url }}/assets/imgs/1.png) before receiving the evidence score ![]({{ site.url }}/assets/imgs/et.png) in the...
+* prediction, calculate ![](../assets/imgs/superbeis2.png?raw=true), the prior over ![](../assets/imgs/1.png?raw=true) before receiving the evidence score ![](../assets/imgs/et.png?raw=true) in the...
 
-* update, the posterior on ![]({{ site.url }}/assets/imgs/1.png) is obtained by direct application of the Bayes rule
+* update, the posterior on ![](../assets/imgs/1.png?raw=true) is obtained by direct application of the Bayes rule
 
 These two steps all boil down to integrals, which we don't expect to be amenable analytically. So what do we do? If we can't snipe the target then let's just shoot around at random - that's the
 spirit of the so-called [Monte Carlo](https://en.wikipedia.org/wiki/Monte_Carlo_method) methods! An option is the *bootstrap particle filtering*. The *particle* in it refers to the fact that we
@@ -40,20 +40,20 @@ with replacement. The point here is that the particles, at every step, represent
 
 It turns out that the algorithm is pretty simple:
 
-1. Extract ![]({{ site.url }}/assets/imgs/n.png) samples from the initial prior ![]({{ site.url }}/assets/imgs/X0.png), these are our particles ![]({{ site.url }}/assets/imgs/parts.png); these particles are realizations of the variable ![]({{ site.url }}/assets/imgs/X0.png)
+1. Extract ![](../assets/imgs/n.png?raw=true) samples from the initial prior ![](../assets/imgs/X0.png?raw=true), these are our particles ![](../assets/imgs/parts.png?raw=true); these particles are realizations of the variable ![](../assets/imgs/X0.png?raw=true)
 
-2. For each particle in ![]({{ site.url }}/assets/imgs/Pt.png) sample ![]({{ site.url }}/assets/imgs/tobesampled.png), so basically choose how to evolve each sample according to the ![]({{ site.url }}/assets/imgs/ft.png) above
+2. For each particle in ![](../assets/imgs/Pt.png?raw=true) sample ![](../assets/imgs/tobesampled.png?raw=true), so basically choose how to evolve each sample according to the ![](../assets/imgs/ft.png?raw=true) above
 
-3. How likely is each evolution? Lookup every score with the evidence function ![]({{ site.url }}/assets/imgs/8.png), which is sampling the distribution ![]({{ site.url }}/assets/imgs/distro.png); these values may be one-normalized and represent a weighthing on
+3. How likely is each evolution? Lookup every score with the evidence function ![](../assets/imgs/8.png?raw=true), which is sampling the distribution ![](../assets/imgs/distro.png?raw=true); these values may be one-normalized and represent a weighthing on
 the particles population
 
 4. Bootstrap step, resample with replacement according to the weights; this prepares the population of particles for the next iteration
 
 In the case of discrete distributions, all of the information may be conveniently encoded in matrices and vectors:
 
-* a matrix ![]({{ site.url }}/assets/imgs/mij.png) where the value is the probability of transitioning from state ![]({{ site.url }}/assets/imgs/i.png) into state ![]({{ site.url }}/assets/imgs/j.png)
+* a matrix ![](../assets/imgs/mij.png?raw=true) where the value is the probability of transitioning from state ![](../assets/imgs/i.png?raw=true) into state ![](../assets/imgs/j.png?raw=true)
 
-* a matrix ![]({{ site.url }}/assets/imgs/ekl.png) where the value is the probability of the hidden state ![]({{ site.url }}/assets/imgs/k.png) given the observable state ![]({{ site.url }}/assets/imgs/l.png)
+* a matrix ![](../assets/imgs/ekl.png?raw=true) where the value is the probability of the hidden state ![](../assets/imgs/k.png?raw=true) given the observable state ![](../assets/imgs/l.png?raw=true)
 
 The code is pretty simple, let's have a look around with [Mathematica](https://www.wolfram.com/mathematica). What we want is a program to create and evolve a family of particles, representing the
 target distribution, as described above. Let's stick to an all-discrete world. The signature may simply be:
