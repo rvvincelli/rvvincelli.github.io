@@ -42,7 +42,7 @@ It turns out that the algorithm is pretty simple:
 
 1. Extract ![](../assets/imgs/n.png?raw=true) samples from the initial prior ![](../assets/imgs/X0.png?raw=true), these are our particles ![](../assets/imgs/parts.png?raw=true); these particles are realizations of the variable ![](../assets/imgs/X0.png?raw=true)
 
-2. For each particle in ![](../assets/imgs/Pt.png?raw=true) sample ![](../assets/imgs/tobesampled.png?raw=true), so basically choose how to evolve each sample according to the ![](../assets/imgs/ft.png?raw=true) above
+2. For each particle in ![](../assets/imgs/pt.png?raw=true) sample ![](../assets/imgs/tobesampled.png?raw=true), so basically choose how to evolve each sample according to the ![](../assets/imgs/ft.png?raw=true) above
 
 3. How likely is each evolution? Lookup every score with the evidence function ![](../assets/imgs/8.png?raw=true), which is sampling the distribution ![](../assets/imgs/distro.png?raw=true); these values may be one-normalized and represent a weighthing on
 the particles population
@@ -87,13 +87,14 @@ where `values` is just `{0,1,...m}`, so we are just randomly choosing from this 
 
 The iteration looks like:
 
-
+```mathematica
 For[i = 1, i <= Length[e], i++,
  For[j = 1, j <= n, j++,
   particles[[j]] = RandomChoice[M[[particles[[j]], All]] -> values];
   weights[[j]] = E[[e[[i]], particles[[j]]]]
  ]
 ]
+```
 
 so let's take the row of the M matrix corresponding to the particle value, easy, as the outcome already defines the index, and sample the corresponding line distribution. Rephrased:
 
@@ -117,8 +118,7 @@ particles = RandomChoice[weights -> particles, Length[particles]]
 Now repeat!
 
 In general a bootstrapping step is always due in genetic-like algorithms as we know. In the particular procedure here the set of weights might degenerate - a lot of particles might get small weights
-rather soon, and we want to get rid of them. On the other side you also run the risk of sample impoverishment
-- the set is dominated by a few large-weighted particles and we might get steady too soon, missing out on a more fitting particle set.
+rather soon, and we want to get rid of them. On the other side you also run the risk of sample impoverishment - the set is dominated by a few large-weighted particles and we might get steady too soon, missing out on a more fitting particle set.
 
 For a very well written document on this, discussing variations of the basic algorithm too - check out [this](http://www.cns.nyu.edu/~eorhan/notes/particle-filtering.pdf).
 
