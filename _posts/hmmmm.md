@@ -1,29 +1,40 @@
+---
+layout: post
+title: Hide that Markow
+---
+
+{% include google_analytics.html %}
+
+##Carrying particles around
+
+###Particle filtering for HMMs
+
 It is a rather common real-life situation one where some piece of information cannot be directly accessed but rather it is inferred by looking at some other information we have, more accessible or
  readily available. And more often than not, this inference has to be repeated step after step to drive some computation. Very popular examples here are speech recognition and robot movement control:
 
 * I don't know *exactly* what word you are spelling out, but by looking at the waveform it *sounds* like...
 
-* our friend the robot does not know where he/she is, though its sensors tell it is quite close to a wall
+* our friend the robot does not know where he/she is, though the sensors tell it is quite close to a wall
 
- And very common applications always have very cool, and established, models. The model of reference here is that of [hidden Markov models](https://en.wikipedia.org/wiki/Hidden_Markov_model) and you
+And very common applications always have very cool, and established, models. The model of reference here is that of [hidden Markov models](https://en.wikipedia.org/wiki/Hidden_Markov_model) and you
  can find of course pages galore on the topic. In a nutshell:
 
 * ![](../assets/imgs/1.png?raw=true), we define our hidden state at time ![](../assets/imgs/t.png?raw=true) as a random variable; the process unfolds as an infinite sequence ![](../assets/imgs/2.png?raw=true) of such variables 
  
 * Markov rule: ![](../assets/imgs/3.png?raw=true). This is the so called *memorylessness*, we just look at the immediately preceding state to pontificate on the one to come
 
-* Evolution: at every step `t` for every pair of states ![](../assets/imgs/ij.png?raw=true), in a possibly continuous space, we pass from state ![](../assets/imgs/i.png?raw=true) to state ![](../assets/imgs/j.png?raw=true) with probability ![](../assets/imgs/4.png?raw=true)
+* Evolution: at every step ![](../assets/imgs/t.png?raw=true) for every pair of states ![](../assets/imgs/ij.png?raw=true), in a possibly continuous space, we pass from state ![](../assets/imgs/i.png?raw=true) to state ![](../assets/imgs/j.png?raw=true) with probability ![](../assets/imgs/4.png?raw=true)
 
-* At every step we read a value from the indicator variable, whose response is supposed to be meaningfully linked to the hidden state, so something likep ![](../assets/imgs/5.png?raw=true) for every state-evidence pair ![](../assets/imgs/ie.png?raw=true) 
+* At every step we read a value from the indicator variable, whose response is supposed to be meaningfully linked to the hidden state, so something like ![](../assets/imgs/5.png?raw=true) for every state-evidence pair ![](../assets/imgs/ie.png?raw=true) 
 
-In the worst case scenarios (read as: always in real-life) the evolution probabilities may not be easily estimated. In:
+In the worst case scenarios (read as: always in real-life problems) the evolution probabilities may not be easily estimated:
 
 ![](../assets/imgs/6.png?raw=true)
 
 where ![](../assets/imgs/7.png?raw=true) models noise on the states, may be nonlinear and time-dependent. The same in general can be said of a function ![](../assets/imgs/8.png?raw=true) relating the evidence to the hidden state.
 
 We define the *filtering problem* as the estimation of the current state value ![](../assets/imgs/xt.png?raw=true) given the previous state ![](../assets/imgs/xtmin.png?raw=true) and all of the previous pieces of evidence ![](../assets/imgs/es.png?raw=true). In a regular
-[bayesian](https://en.wikipedia.org/wiki/Bayes_theorem) the estimation of the state is actually a probability distribution:
+[bayesian context](https://en.wikipedia.org/wiki/Bayes_theorem) the estimation of the state is actually a probability distribution:
 
 ![](../assets/imgs/superbeis.png?raw=true)
 
@@ -96,11 +107,11 @@ For[i = 1, i <= Length[e], i++,
 ]
 ```
 
-so let's take the row of the M matrix corresponding to the particle value, easy, as the outcome already defines the index, and sample the corresponding line distribution. Rephrased:
+so let's take the row of the `M` matrix corresponding to the particle value -  easy, as the outcome already defines the index - and sample the corresponding line distribution. Rephrased:
 
 1. extract a particle
-2. check what realization is it and seek to the corresponding row on M
-3. evolve the particle, thus select a new value at the next instant t+1 based on the row itself, which represents the possible translations
+2. check what realization is it and seek to the corresponding row on `M`
+3. evolve the particle, thus select a new value at the next instant *t+1* based on the row itself, which represents the possible translations
 
 So now say we have evolved from state `i` to state `j`, how likely is this to happen given that we know the current evidence sample `e_t`? We define a number of weights for our newbreed of particles,
 right from the evidences:
@@ -122,4 +133,6 @@ rather soon, and we want to get rid of them. On the other side you also run the 
 
 For a very well written document on this, discussing variations of the basic algorithm too - check out [this](http://www.cns.nyu.edu/~eorhan/notes/particle-filtering.pdf).
 
-Find the code [here](https://github.com/rvvincelli/pdm/blob/master/ParticleFiltering.nb).
+Find the code and some little graphical insights [here](https://github.com/rvvincelli/pdm/blob/master/ParticleFiltering.nb).
+
+
