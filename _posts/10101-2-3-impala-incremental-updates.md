@@ -134,7 +134,7 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
 LOCATION '/user/ricky/dealership/cars/base';
 ```
 
-If the timestamp field is [properly](http://www.cloudera.com/content/www/en-us/documentation/enterprise/latest/topics/impala_timestamp.html) formatted is parsed automatically into the desired type, otherwise it will turn out null. This is the base table and needs to be created only once - if the script is retried it won't be recreated.
+If the timestamp field is [properly](http://www.cloudera.com/content/www/en-us/documentation/enterprise/latest/topics/impala_timestamp.html) formatted it is parsed automatically into the desired type, otherwise it will turn out null. This is the base table and needs to be created only once - if the script is retried it won't be recreated.
 
 In the very same way we create now a table importing the new data:
 
@@ -159,7 +159,7 @@ This is of course equivalent to:
 CREATE TABLE cars_old AS SELECT * FROM cars;
 DROP TABLE cars;
 ```
-which might be the actual pick in case the Hive metastore bugs you with permission issues.
+which might be your actual pick in case the Hive metastore bugs you with permission issues.
 
 And now to the merge:
 
@@ -192,9 +192,9 @@ DROP TABLE cars_old;
 
 ## How to run
 
-Just fire up your `impala-shell`, `connect` to the `impalad` and issue the statements! You can work from the Impala UI provided by [Hue](http://gethue.com/) as well but be careful as you may not see the errors.
+Just fire up your `impala-shell`, `connect` to the `impalad` and issue the statements! You can work from the Impala UI provided by [Hue](http://gethue.com/) as well but be careful as you may not see eventual errors.
 
-For batch mode put all of the statements in a text file and run the [--quey-file](http://www.cloudera.com/content/www/en-us/documentation/cdh/5-1-x/Impala/Installing-and-Using-Impala/ciiu_shell_options.html) option.
+For batch mode put all of the statements in a text file and run the [--query-file](http://www.cloudera.com/content/www/en-us/documentation/cdh/5-1-x/Impala/Installing-and-Using-Impala/ciiu_shell_options.html) option.
 In this case the process will abort if query execution errors occur.
 
 That's * FROM me.here!
