@@ -28,19 +28,19 @@ So, to break it down with an example, let's say this is our base table, the curr
 <td>1</td>
 <td style="text-align: center">jeep</td>
 <td style="text-align: right">red</td>
-<td style="text-align: right">12-1-88</td>
+<td style="text-align: right">1988-01-12</td>
 </tr>
 <tr>
 <td>2</td>
 <td style="text-align: center">auto</td>
 <td style="text-align: right">blue</td>
-<td style="text-align: right">13-1-88</td>
+<td style="text-align: right">1988-01-13</td>
 </tr>
 <tr>
 <td>3</td>
 <td style="text-align: center">moto</td>
 <td style="text-align: right">yellow</td>
-<td style="text-align: right">11-9-01</td>
+<td style="text-align: right">2001-01-09</td>
 </tr>
 </tbody></table>
 
@@ -57,13 +57,13 @@ And we have a second table, we refer to it as the new, or delta, table, with the
 <td>1</td>
 <td style="text-align: center">jeep</td>
 <td style="text-align: right">brown</td>
-<td style="text-align: right">12-1-88</td>
+<td style="text-align: right">1988-01-12</td>
 </tr>
 <tr>
 <td>2</td>
 <td style="text-align: center">auto</td>
 <td style="text-align: right">green</td>
-<td style="text-align: right">13-1-88</td>
+<td style="text-align: right">1988-01-13</td>
 </tr>
 </tbody></table>
 
@@ -81,18 +81,18 @@ So our final result will be:
 <td>1</td>
 <td style="text-align: center">jeep</td>
 <td style="text-align: right">brown</td>
-<td style="text-align: right">12-1-88</td>
+<td style="text-align: right">1988-01-12</td>
 </tr>
 <tr>
 <td>2</td>
 <td style="text-align: center">auto</td>
 <td style="text-align: right">green</td>
-<td style="text-align: right">13-1-88</td>
+<td style="text-align: right">1988-01-13</td>
 </tr>
 <td>3</td>
 <td style="text-align: center">moto</td>
 <td style="text-align: right">yellow</td>
-<td style="text-align: right">11-9-01</td>
+<td style="text-align: right">2001-01-09</td>
 </tr>
 </tbody></table>
 
@@ -130,8 +130,8 @@ CREATE EXTERNAL TABLE IF NOT EXISTS cars(
        color STRING,
        year TIMESTAMP
 )
-ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
-LOCATION '/user/ricky/dealership/cars/base';
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+LOCATION '/user/ricky/dealership/cars/base_table';
 ```
 
 If the timestamp field is [properly](http://www.cloudera.com/content/www/en-us/documentation/enterprise/latest/topics/impala_timestamp.html) formatted it is parsed automatically into the desired type, otherwise it will turn out null. This is the base table and needs to be created only once - if the script is retried it won't be recreated.
@@ -145,7 +145,7 @@ CREATE EXTERNAL TABLE cars_new(
        color STRING,
        year TIMESTAMP
 )
-ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
 LOCATION '/user/ricky/dealership/cars/delta_of_the_day';
 ```
 This creation is not optional, no `IF NOT EXISTS`, as this table is temporary for us to store the new rows, it will be dropped afterwards.
@@ -192,9 +192,12 @@ DROP TABLE cars_old;
 
 ## How to run
 
+First of all create the data files on HDFS on the paths from the `LOCATION`s above.
+
 Just fire up your `impala-shell`, `connect` to the `impalad` and issue the statements! You can work from the Impala UI provided by [Hue](http://gethue.com/) as well but be careful as you may not see eventual errors.
 
-For batch mode put all of the statements in a text file and run the [--query-file](http://www.cloudera.com/content/www/en-us/documentation/cdh/5-1-x/Impala/Installing-and-Using-Impala/ciiu_shell_options.html) option.
+For batch mode put all of the statements in a text file and run the [--query_file](http://www.cloudera.com/content/www/en-us/documentation/cdh/5-1-x/Impala/Installing-and-Using-Impala/ciiu_shell_options.html) option:
+`impala-shell -i impala.daemon.host:21000 -f impala_upserts.sql`
 In this case the process will abort if query execution errors occur.
 
 That's * FROM me.here!
