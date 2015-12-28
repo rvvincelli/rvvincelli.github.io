@@ -102,7 +102,7 @@ as you know the two SQL variants of Hive and Impala are almost the same thing re
 
  
 ## How we do
-We will use [this](http) small CSV file as our base table and [this other](http) as the delta. The code can be found [here](github). 
+We will use a small CSV file as our base table and some other as the delta. Data and code can be found [here]([this](https://github.com/rvvincelli/impala-upserts) ). 
 The whole procedure can be divided into three logical steps:
 
 1. creation of the base table, *una tantum*
