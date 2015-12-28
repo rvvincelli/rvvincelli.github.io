@@ -128,7 +128,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS cars(
        id STRING,
        type STRING,
        color STRING,
-       year TIMESTAMP
+       matriculation_year TIMESTAMP
 )
 ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
 LOCATION '/user/ricky/dealership/cars/base_table';
@@ -143,7 +143,7 @@ CREATE EXTERNAL TABLE cars_new(
        id STRING,
        type STRING,
        color STRING,
-       year TIMESTAMP
+       matriculation_year TIMESTAMP
 )
 ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
 LOCATION '/user/ricky/dealership/cars/delta_of_the_day';
@@ -152,9 +152,12 @@ This creation is not optional, no `IF NOT EXISTS`, as this table is temporary fo
 
 To make things clearer let us refer to these two tables as 'old' and 'new' and do:
 
-```sql ALTER TABLE cars RENAME TO cars_old;```
+```sql
+ALTER TABLE cars RENAME TO cars_old;
+```
 
 This is of course equivalent to:
+
 ```sql
 CREATE TABLE cars_old AS SELECT * FROM cars;
 DROP TABLE cars;
@@ -187,8 +190,10 @@ Of course if the ID matches there will be a replacement, no matter what: more ad
 
 Finally the step to guarantee we can re-execute everything safely the next time new data is available:
 
+```sql
 DROP TABLE cars_new;
 DROP TABLE cars_old;
+```
 
 ## How to run
 
