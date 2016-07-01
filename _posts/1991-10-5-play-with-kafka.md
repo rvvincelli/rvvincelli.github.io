@@ -5,9 +5,9 @@ title: Play! with Kafka
 
 {% include google_analytics.html %}
 
-##A small Play! websocket service backed up by Kafka
+## A small Play! websocket service backed up by Kafka
 
-###Behind the scenes
+### Behind the scenes
 
 When it comes to the web application backend in Scala and Java the [Play Framework](https://www.playframework.com) is for sure an important option to look at. Among its strengths, incorporated async
 request serving, seamless JSON integration, powerful abstractions such as the iterator-iteratee model and websockets support. And of course it's [Typesafe](https://typesafe.com). A common use case
@@ -115,7 +115,7 @@ So now we have a `mnms` object, a sequence of messages with their metadata, `Seq
 the metadata and simply send back to the websocket client, via the Play! provided actor reference for it, a JSON array. We use the Argonaut serializer we have already, and our `acceptWithActor` above
 asks us to use the Play! JSON type - we can easily convert from the Argonaut one re-parsing it.
 
-###Debug
+### Debug
 
 You can create the distribution with `dist` as this is a standard Play! application. Then, start the webservice by just running:
 

@@ -5,7 +5,7 @@ title: Pump that gear
 
 {% include google_analytics.html %}
 
-##Everything is an actor
+## Everything is an actor
 
 I have had the chance to play a little with [Gearpump](http://www.gearpump.io), an [Akka](http://akka.io)-based data processing framework. A few very interesting features are:
 
@@ -15,7 +15,7 @@ I have had the chance to play a little with [Gearpump](http://www.gearpump.io), 
 * modular connectors: a few source and sink connectors are provided already, and you are free to create custom ones targeting your Hadoop beast of choice
 * hassle-free scaling: define your actor workers and configure how many of them you need
 
-##What we are going to do
+## What we are going to do
 
 Let us go through a full example to see how things actually work, together with the deployment of a Gearpump program on YARN. We will prepare a modified version of the wordcount example [found](http://www.gearpump.io/releases/latest/dev-write-1st-app.html)
 in the documentation. We will:
@@ -26,7 +26,7 @@ in the documentation. We will:
 
 Deploying the Gearpump YARN infrastructure and setting up our data source are part of the tutorial too.
 
-##Source and sink setup
+## Source and sink setup
 
 Our data source will be a Kafka topic containing the text to process and we will use an HBase table collecting the counts. We assume to work on a standard [Cloudera](https://cloudera.com/products/cloudera-manager.html)
 cluster, not that it really matters, any distribution of your choice will do.
@@ -49,7 +49,7 @@ Finally we pour the data in HBase. Surprisingly, Gearump does not take care of c
 
 this creates a new table in the `default` namespace.
 
-##The code
+## The code
 
 Our application is the Hadoop HelloWorld:
 
@@ -194,7 +194,7 @@ We can see the Kerberos configuration, asking to read the two variables as a str
 
 As usual [here](https://github.com/rvvincelli/gearpump-wordcount-kafka-hbase) is the full code.
 
-##How to deploy
+## How to deploy
 
 We abstract from a particular Hadoop distribution, but a common important point is to support [Kerberos](https://en.wikipedia.org/wiki/Kerberos_(protocol)). In this respect, Gearpump comes with integrated Kerberos configuration, which is cool and makes a crucial checkbox for production.
 
@@ -218,7 +218,7 @@ We are now ready to launch the application!
 
 and if you see `Submit application succeed` in the output then everything went fine :)
 
-##<DEBUG INFO>
+## <DEBUG INFO>
 
 Mmake sure the application is running by connecting to the Gearpump webapp (see [here](http://www.gearpump.io/releases/latest/deployment-ui-authentication
 .html)) - you find the link in the container logs of the Gearpump instance on the Y

@@ -5,14 +5,14 @@ title: Kafka & Spark
 
 {% include google_analytics.html %}
 
-##Integrating Kafka with Spark - hands on
+## Integrating Kafka with Spark - hands on
 
 As you all know already [Apache Kafka](http://kafka.apache.org) is a distributed publisher-subscriber system capable of handling quite heavy loads and throughputs too - which turns out to be not
 just another *BDBC* (Big Data Big Claim) given that the project started at [Linkedin](http://www.linkedin.com), is widely adopted and supported by [Cloudera](http://www.cloudera.com), among others. [Spark](http://spark.apache.org) is getting real momentum these days so no need
 for introduction, and a really interesting module is [Spark Streaming](http://spark.apache.org/streaming), which allows to feed the application a live data stream to be processed in a batch-window fashion with the usual Spark functional
 -like operations. The integration comes quite easy and we go through a small example now.
 
-###Kafka what?
+### Kafka what?
 
 In a nutshell, Kafka is a producer-consumer system, the producer, identified by some ID, sends a message labeled with a topic to the broker, which gets in turn subscriptions from a consumer. You can
 of course have multiple instances for each of these three roles. The basic unity of parallelism in Kafka is the partition number for topic (`num.partitions`, configurable on the cluster); briefly, more
