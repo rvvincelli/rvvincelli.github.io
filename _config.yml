@@ -1,15 +1,10 @@
-timezone: America/Denver
+timezone: Europe/Amsterdam
 # Dependencies
-markdown:       redcarpet
-redcarpet:
-    extensions: ['smart', 'tables']
+markdown:       kramdown
 
 highlighter:         rouge
 fenced_code_blocks:  true
 
-# Permalinks
-#
-# Use of `relative_permalinks` ensures post links from the index work properly.
 permalink:           pretty
 
 # Setup
@@ -29,5 +24,3 @@ author:
   facebook: 	  riccardo.vincelli
   scribd: 	  riccardo_vincelli
   youtube: 	  reimuno
-
-
