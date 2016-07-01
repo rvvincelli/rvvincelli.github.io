@@ -4,7 +4,7 @@ markdown:       redcarpet
 redcarpet:
     extensions: ['smart', 'tables']
 
-highlighter:         pygments
+highlighter:         rouge
 fenced_code_blocks:  true
 
 # Permalinks
