@@ -72,6 +72,7 @@ val app = StreamApplication("wordCount", Graph(kafkaSourceProcessor ~> split ~ p
 ```
 
 This expression will be familiar if you worked with Akka streams or any other flow-oriented framework, what we actually build is a graph, an execution graph:
+
 * pick up the data from Kafka
 * split it
 * route it to the summers according to a partitioning scheme
