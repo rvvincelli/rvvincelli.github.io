@@ -53,17 +53,17 @@ this creates a new table in the `default` namespace.
 
 Our application is the Hadoop HelloWorld:
 
-*read the data from a source
-*split the data in batches for processing
-*perform some operation on the single batches
-*aggregate the results
+* read the data from a source
+* split the data in batches for processing
+* perform some operation on the single batches
+* aggregate the results
 
 In our particular case:
 
-*read the data from a Kafka topic
-*split it by line
-*for every batch, count the words and sum it
-*store the results
+* read the data from a Kafka topic
+* split it by line
+* for every batch, count the words and sum it
+* store the results
 
 The application definition is a oneliner:
 
@@ -72,10 +72,10 @@ val app = StreamApplication("wordCount", Graph(kafkaSourceProcessor ~> split ~ p
 ```
 
 This expression will be familiar if you worked with Akka streams or any other flow-oriented framework, what we actually build is a graph, an execution graph:
-*pick up the data from Kafka
-*split it
-*route it to the summers according to a partitioning scheme
-*store the result in HBase
+* pick up the data from Kafka
+* split it
+* route it to the summers according to a partitioning scheme
+* store the result in HBase
 
 Let's see how we build every computing entity. 
 
@@ -220,7 +220,7 @@ and if you see `Submit application succeed` in the output then everything went f
 
 ## <DEBUG INFO>
 
-Mmake sure the application is running by connecting to the Gearpump webapp (see [here](http://www.gearpump.io/releases/latest/deployment-ui-authentication
+Make sure the application is running by connecting to the Gearpump webapp (see [here](http://www.gearpump.io/releases/latest/deployment-ui-authentication
 .html)) - you find the link in the container logs of the Gearpump instance on the Y
 arn Resource Manager webapp.
 Once you log in click on the `Details` button for your application - if it is not enabled then the application has already terminated time ago. In the `Overview` tab click on `Log dir.` and move to this path on the box where the appmaster actor is running - you see this in the `Actor Path` entry.
