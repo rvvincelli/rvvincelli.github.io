@@ -27,7 +27,7 @@ Basically the `ps2` format is the binary dump with some error-correcting codes. 
 
 ### h3mu
 Install PCSX2 and configure the BIOS. You can simply install it from the software center (and you should). Unless your computer is blazing fast and new, as in OpenGL 3+, don't even bother. Go get a powerful box and come back to this later, we'll wait for you.
-Ok. Configure the BIOS now. I am not hosting the BIOS file "because w4r3z" but you can find many on [eMule](www.emule-project.net/), or well maybe you have flashed yours already. In the CDVD menu select "No disc", unless you have one, ie you didn't listen when I told you to go get a real computer.
+Ok. Configure the BIOS now. I am not hosting the BIOS file "because w4r3z" but you can find many on [eMule](http://www.emule-project.net/), or well maybe you have flashed yours already. In the CDVD menu select "No disc", unless you have one, ie you didn't listen when I told you to go get a real computer.
 
 Drop the ps2 files into the `memcards` folder and mount them in from the PCSX2 configuration.
 Use this [PCSX2-modded uLaunchELF]({{ site.url }}assets/attachments/uLE_v4.40h_PCSX2.zip) and boot your emu - there is no real difference between the regular and compressed binary. Enter the first two folders, these are the memcards, make sure your data is there.
