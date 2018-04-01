@@ -110,7 +110,6 @@ object CollectInstantInfo {
   
   type FrameNumber = Int
   
-  //Please do note that this is a quick and dirty implementation; to make sense of all these Option's around, please refer to the documentation.
   def updateDriverState(fn: FrameNumber, value: Option[InstantInfo], state: State[DriverState]): Option[(FrameNumber, DriverState)] = Some(
     fn ->
     { 
