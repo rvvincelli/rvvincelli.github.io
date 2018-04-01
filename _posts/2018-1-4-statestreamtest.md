@@ -160,7 +160,7 @@ The test suite does a few things for us:
 4. properly configures the testing framework
 5. executes the run with a specified burn-in, which is creating a <img src="{{ site.url }}assets/imgs/sparktest_sigma.gif?raw=true"/> and testing it with the equality
 
-If we ask our new stream processor to calculate a state from the input file, the result would be completely different from the test state, until some time ![]<img src="{{ site.url }}assets/imgs/sparktest_t.gif?raw=true"/> is hit. Before this point, an equality function ![]({{ site.url }}assets/imgs/sparktest_sold.gif?raw=true) is not defined - this is until we stay in the famous initial sequence - we have to discard this.
+If we ask our new stream processor to calculate a state from the input file, the result would be completely different from the test state, until some time <img src="{{ site.url }}assets/imgs/sparktest_t.gif?raw=true"/> is hit. Before this point, an equality function ![]({{ site.url }}assets/imgs/sparktest_sold.gif?raw=true) is not defined - this is until we stay in the famous initial sequence - we have to discard this.
 
 We will have to let two streams be compared in Spark, the old and new one, arguments to the equality function. For the comparison to yield a true, which means a green test, we need to know where to cut, somehow. This cut point is where our new application has caught up so to say - it is aligned because the past state it is not presented with has no more effect, the window horizon has elapsed and we have discarded what we had to discard.
 
