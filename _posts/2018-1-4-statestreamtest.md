@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Testing stateful streaming application - an example in Spark
+title: Testing stateful streaming applications - an example in Spark
 ---
 
 {% include google_analytics.html %}
