@@ -38,7 +38,7 @@ at every instant a new event comes in. The state of the stream is represented by
 
 where some initial state ![]({{ site.url }}assets/imgs/sparktest_szero.png?raw=true) is given and the generic state at time ![]({{ site.url }}assets/imgs/sparktest_t.png?raw=true) is given by:
 
-<img src="{{ site.url }}assets/imgs/sparktest_szero.png?raw=true" width="20" height="40" />
+<img src="{{ site.url }}/assets/imgs/sparktest_szero.png?raw=true" width="20" height="40" />
 
 
 ![]({{ site.url }}assets/imgs/sparktest_staterec.png?raw=true)
