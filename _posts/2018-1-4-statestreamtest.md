@@ -30,13 +30,13 @@ Let us build up some notation to better address this and get to understand what 
 
 We can model a stream as an infinite set:
 
-<img src="{{ site.url }}assets/imgs/sparktest_infiniteset.gif?raw=true" width="20" height="20" />
+<img src="{{ site.url }}assets/imgs/sparktest_infiniteset.gif?raw=true"/>
 
 at every instant a new event comes in. The state of the stream is represented by some set and it is defined, at every instant, as the result of applying some function to the new incoming event building up on what we have already; the state of the application may be conveniently modeled as the sequence:
 
 <img src="{{ site.url }}assets/imgs/sparktest_infinitesetstate.gif?raw=true" width="20" height="20" />
 
-where some initial state <img src="{{ site.url }}assets/imgs/sparktest_szero.gif?raw=true" width="20" height="20" /> is given and the generic state at time ![]({{ site.url }}assets/imgs/sparktest_t.gif?raw=true) is given by:
+where some initial state <img src="{{ site.url }}assets/imgs/sparktest_szero.gif?raw=true" width="20" height="20" /> is given and the generic state at time <img src="{{ site.url }}assets/imgs/sparktest_t.gif?raw=true" width="20" height="20" /> is given by:
 
 <img src="{{ site.url }}assets/imgs/sparktest_staterec.gif?raw=true" width="20" height="20" />
 
