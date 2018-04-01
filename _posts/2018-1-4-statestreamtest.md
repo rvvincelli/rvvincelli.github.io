@@ -38,6 +38,9 @@ at every instant a new event comes in. The state of the stream is represented by
 
 where some initial state ![]({{ site.url }}assets/imgs/sparktest_szero.png?raw=true) is given and the generic state at time ![]({{ site.url }}assets/imgs/sparktest_t.png?raw=true) is given by:
 
+<img src="{{ site.url }}assets/imgs/sparktest_szero.png?raw=true" width="20" height="40" />
+
+
 ![]({{ site.url }}assets/imgs/sparktest_staterec.png?raw=true)
 
 to conveniently look at the current state only, instead of carrying all the events ![]({{ site.url }}assets/imgs/sparktest_xt.png?raw=true) from the past. This is basically an order-one recurrence - starting from a predefined state, at every tick we are perfectly ready to compute the new state.
