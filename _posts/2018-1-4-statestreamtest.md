@@ -34,27 +34,27 @@ We can model a stream as an infinite set:
 
 at every instant a new event comes in. The state of the stream is represented by some set and it is defined, at every instant, as the result of applying some function to the new incoming event building up on what we have already; the state of the application may be conveniently modeled as the sequence:
 
-<img src="{{ site.url }}assets/imgs/sparktest_infinitesetstate.gif?raw=true" width="20" height="20" />
+<img src="{{ site.url }}assets/imgs/sparktest_infinitesetstate.gif?raw=true"/>
 
-where some initial state <img src="{{ site.url }}assets/imgs/sparktest_szero.gif?raw=true" width="20" height="20" /> is given and the generic state at time <img src="{{ site.url }}assets/imgs/sparktest_t.gif?raw=true" width="20" height="20" /> is given by:
+where some initial state <img src="{{ site.url }}assets/imgs/sparktest_szero.gif?raw=true"/> is given and the generic state at time <img src="{{ site.url }}assets/imgs/sparktest_t.gif?raw=true"/> is given by:
 
-<img src="{{ site.url }}assets/imgs/sparktest_staterec.gif?raw=true" width="20" height="20" />
+<img src="{{ site.url }}assets/imgs/sparktest_staterec.gif?raw=true"/>
 
-to conveniently look at the current state only, instead of carrying all the events <img src="{{ site.url }}assets/imgs/sparktest_xt.gif?raw=true" width="20" height="20" /> from the past. This is basically an order-one recurrence - starting from a predefined state, at every tick we are perfectly ready to compute the new state.
+to conveniently look at the current state only, instead of carrying all the events <img src="{{ site.url }}assets/imgs/sparktest_xt.gif?raw=true"/> from the past. This is basically an order-one recurrence - starting from a predefined state, at every tick we are perfectly ready to compute the new state.
 
-But what if we needed some more state to be built up, before we can be able to produce the current tick? Taking a step back, in this simple writing if you unfold the recurrence the state at time <img src="{{ site.url }}assets/imgs/sparktest_t.gif?raw=true" width="20" height="20" /> , so <img src="{{ site.url }}assets/imgs/sparktest_st.gif?raw=true" width="20" height="20" />, is built as a function of the initial state and the events so far:
+But what if we needed some more state to be built up, before we can be able to produce the current tick? Taking a step back, in this simple writing if you unfold the recurrence the state at time <img src="{{ site.url }}assets/imgs/sparktest_t.gif?raw=true"/> , so <img src="{{ site.url }}assets/imgs/sparktest_st.gif?raw=true"/>, is built as a function of the initial state and the events so far:
 
-<img src="{{ site.url }}assets/imgs/sparktest_sigma.gif?raw=true" width="20" height="20" />
+<img src="{{ site.url }}assets/imgs/sparktest_sigma.gif?raw=true"/>
 
-and what if this <img src="{{ site.url }}assets/imgs/sparktest_sigma.gif?raw=true" width="20" height="20" /> is not defined? Coming back to planet earth: have we seen enough events in the stream for the state to be defined? Say in the application we are asked: for a new car, determine the the driver profile (occasional, commuter, taxi driver etc) after no less than eight days of usage. Before eight days we could not really dare to say anything, the state is undefined!
+and what if this <img src="{{ site.url }}assets/imgs/sparktest_sigma.gif?raw=true"/> is not defined? Coming back to planet earth: have we seen enough events in the stream for the state to be defined? Say in the application we are asked: for a new car, determine the the driver profile (occasional, commuter, taxi driver etc) after no less than eight days of usage. Before eight days we could not really dare to say anything, the state is undefined!
 
-Now in our testing scenario we are given some stream <img src="{{ site.url }}assets/imgs/sparktest_xtest.gif?raw=true" width="20" height="20" /> and the sequence of state sets <img src="{{ site.url }}assets/imgs/sparktest_stest.gif?raw=true" width="20" height="20" /> our application is expected to emit seeing that as an input. These two sequences are extracts of a run of the original application: think that the old application is running and at some point the input messages, and the state produced for those, are recorded.
+Now in our testing scenario we are given some stream <img src="{{ site.url }}assets/imgs/sparktest_xtest.gif?raw=true"/> and the sequence of state sets <img src="{{ site.url }}assets/imgs/sparktest_stest.gif?raw=true"/> our application is expected to emit seeing that as an input. These two sequences are extracts of a run of the original application: think that the old application is running and at some point the input messages, and the state produced for those, are recorded.
 
-Again, assume this eight-day horizon for the application. The very first eight shots of our stateful application, so the set <img src="{{ site.url }}assets/imgs/sparktest_sacht.gif?raw=true" width="20" height="20" /> will be undefined. To check whether our new implementation is correct or not, we have to evaluate the equality:
+Again, assume this eight-day horizon for the application. The very first eight shots of our stateful application, so the set <img src="{{ site.url }}assets/imgs/sparktest_sacht.gif?raw=true"/> will be undefined. To check whether our new implementation is correct or not, we have to evaluate the equality:
 
-<img src="{{ site.url }}assets/imgs/sparktest_sold.gif?raw=true" width="20" height="20" />
+<img src="{{ site.url }}assets/imgs/sparktest_sold.gif?raw=true"/>
 
-for every time <img src="{{ site.url }}assets/imgs/sparktest_t.gif?raw=true" width="20" height="20" />. Until <img src="{{ site.url }}assets/imgs/sparktest_totto.gif?raw=true" width="20" height="20" /> this equality is not well defined: while the state recorded on the old app is legit, what we are producing on the side of the new app is not defined, because this is a cold start and we are missing whatever the old app had before. The eight time ticks is actually analogous to what in other areas is referred to as *burn-in period*.
+for every time <img src="{{ site.url }}assets/imgs/sparktest_t.gif?raw=true"/>. Until <img src="{{ site.url }}assets/imgs/sparktest_totto.gif?raw=true"/> this equality is not well defined: while the state recorded on the old app is legit, what we are producing on the side of the new app is not defined, because this is a cold start and we are missing whatever the old app had before. The eight time ticks is actually analogous to what in other areas is referred to as *burn-in period*.
 
 In a nutshell, in the codeful part of this blog we show how to implement such scenarios in an elegant way in Spark streaming. How do we go about asking the testing framework to discard a prefix, and live happily thereafter?
 
@@ -81,7 +81,7 @@ To write our stateful application, we will use the `mapWithState` method. See so
 
 ### A streaming application
 
-The class `DriverState` represents the current state for a specific car / driver (let's use these terms interchangeably); all together, they make up the big <img src="{{ site.url }}assets/imgs/sparktest_st.gif?raw=true" width="20" height="20" /> at the current time. Every time we see a new car beacon come in, there are two cases:
+The class `DriverState` represents the current state for a specific car / driver (let's use these terms interchangeably); all together, they make up the big <img src="{{ site.url }}assets/imgs/sparktest_st.gif?raw=true"/> at the current time. Every time we see a new car beacon come in, there are two cases:
 1. the car is seen for the first time, it is not known to the system yet: some initial state will be defined for it, collecting the very first measurement
 2. the car is known and a state for it can be found; this state is updated and, if we have seen enough measurements, then we may say something about the driver profile
 
@@ -139,13 +139,13 @@ object CollectInstantInfo {
 
 }
 ```
-The `createStream` method is our entry point: it accepts the incoming stream of messages <img src="{{ site.url }}assets/imgs/sparktest_bigx.gif?raw=true" width="20" height="20" /> and creates a global state <img src="{{ site.url }}assets/imgs/sparktest_bigS.gif?raw=true" width="20" height="20" />. There are three operations:
+The `createStream` method is our entry point: it accepts the incoming stream of messages <img src="{{ site.url }}assets/imgs/sparktest_bigx.gif?raw=true"/> and creates a global state <img src="{{ site.url }}assets/imgs/sparktest_bigS.gif?raw=true"/>. There are three operations:
 
-1. define a method to update the state; this is our <img src="{{ site.url }}assets/imgs/sparktest_sigmello.gif?raw=true" width="20" height="20" /> function
+1. define a method to update the state; this is our <img src="{{ site.url }}assets/imgs/sparktest_sigmello.gif?raw=true"/> function
 2. application: compute the sigma function on the states
 3. emission: return the projection of the `S`tate on a particular car (and return this)
 
-There are many other functionalities Spark supports here, for example setting a timeout after which long-not-seen entries are discarded, choosing an initial state <img src="{{ site.url }}assets/imgs/sparktest_szero.gif?raw=true" width="20" height="20" />. Spark requires the input stream to be key-paired in order to let us define a state, a state instance is always linked to a key entry.
+There are many other functionalities Spark supports here, for example setting a timeout after which long-not-seen entries are discarded, choosing an initial state <img src="{{ site.url }}assets/imgs/sparktest_szero.gif?raw=true"/>. Spark requires the input stream to be key-paired in order to let us define a state, a state instance is always linked to a key entry.
 
 The sigma function has some noise because of the `Option`s all around, but what it does is implementing the two cases newcar vs oldcar explained above; for every encoming car in the stream, a state is created or updated.
 
@@ -154,13 +154,13 @@ We can easily create a main to drop an input and output file for us to test. Eve
 ### Are we there yet?
 
 The test suite does a few things for us:
-1. generates a number of random records for the <img src="{{ site.url }}assets/imgs/sparktest_xtest.gif?raw=true" width="20" height="20" /> stream
-2. computes a full test state <img src="{{ site.url }}assets/imgs/sparktest_soldsing.gif?raw=true" width="20" height="20" /> and serializes it
-3. defines a function <img src="{{ site.url }}assets/imgs/sparktest_sold.gif?raw=true" width="20" height="20" /> to test the performance of the "new" streamer against the data of the full test state, ideally produced by some "old" implementation
+1. generates a number of random records for the <img src="{{ site.url }}assets/imgs/sparktest_xtest.gif?raw=true"/> stream
+2. computes a full test state <img src="{{ site.url }}assets/imgs/sparktest_soldsing.gif?raw=true"/> and serializes it
+3. defines a function <img src="{{ site.url }}assets/imgs/sparktest_sold.gif?raw=true"/> to test the performance of the "new" streamer against the data of the full test state, ideally produced by some "old" implementation
 4. properly configures the testing framework
-5. executes the run with a specified burn-in, which is creating a <img src="{{ site.url }}assets/imgs/sparktest_sigma.gif?raw=true" width="20" height="20" /> and testing it with the equality
+5. executes the run with a specified burn-in, which is creating a <img src="{{ site.url }}assets/imgs/sparktest_sigma.gif?raw=true"/> and testing it with the equality
 
-If we ask our new stream processor to calculate a state from the input file, the result would be completely different from the test state, until some time ![]<img src="{{ site.url }}assets/imgs/sparktest_t.gif?raw=true" width="20" height="20" /> is hit. Before this point, an equality function ![]({{ site.url }}assets/imgs/sparktest_sold.gif?raw=true) is not defined - this is until we stay in the famous initial sequence - we have to discard this.
+If we ask our new stream processor to calculate a state from the input file, the result would be completely different from the test state, until some time ![]<img src="{{ site.url }}assets/imgs/sparktest_t.gif?raw=true"/> is hit. Before this point, an equality function ![]({{ site.url }}assets/imgs/sparktest_sold.gif?raw=true) is not defined - this is until we stay in the famous initial sequence - we have to discard this.
 
 We will have to let two streams be compared in Spark, the old and new one, arguments to the equality function. For the comparison to yield a true, which means a green test, we need to know where to cut, somehow. This cut point is where our new application has caught up so to say - it is aligned because the past state it is not presented with has no more effect, the window horizon has elapsed and we have discarded what we had to discard.
 
