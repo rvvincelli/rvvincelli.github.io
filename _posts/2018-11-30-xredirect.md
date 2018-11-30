@@ -10,7 +10,7 @@ Back in the old days, where terminals were dummy and operators were [not so nice
 
 Without getting into troublesome detail, the windowing system cares for basic operativity in a GUI environment, things like drawing and moving program windows, handling the mouse and keyboard input. On top of it you have much more, the look and feel for example - but that is a matter for the window managers and desktop environments (KDE, Gnome etc).
 
-The X Window System has stopped at version 11 in 1987, which would sound disappointing to the agile and fast releaser in you - but well if you get something very right, there is no need to change it.
+The X Window System has stopped at version 11 in 1987, which would sound disappointing to the agile and fast releaser in you - but well if you get something very right, there is no need to change it... right?
 
 11 is actually the version of the reference protocol and it is pretty advanced. Among other things, it allows for a decoupling between the component providing the windowing service - the X server - and the programs asking for windows to be drawn and clicks to be fired - the client applications. Furthermore, X uses TCP networking.
 
@@ -73,7 +73,7 @@ I find it handy to launch programs in the background:
 
 `xeyes&`
 
-Be aware that if the connection drops most probably the session will die too, leaving a behaded program. Also if the network changes things break too. The legend goes that only a very rare binary of `emacs` compiled with X support by [Richard Stallman](https://upload.wikimedia.org/wikipedia/commons/7/7b/Richard_Stallman_-_F%C3%AAte_de_l%27Humanit%C3%A9_2014_-_010.jpg) himself has the ability to switch around sessions.
+Be aware that if the connection drops most probably the session will die too, leaving a behaded program. Also if the network changes things break too. The legend goes that only a very rare binary of `emacs` compiled with X support by [Richard Stallman](https://upload.wikimedia.org/wikipedia/commons/7/7b/Richard_Stallman_-_F%C3%AAte_de_l%27Humanit%C3%A9_2014_-_010.jpg) himself, on `gcc v0.5` has the ability to switch around sessions.
 
 `xlogo` is another superb application I challenge you to test.
 ![xlogo a gogo]({{ site.url }}assets/imgs/xlogo.png?raw=true)
