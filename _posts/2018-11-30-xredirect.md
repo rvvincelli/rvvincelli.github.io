@@ -75,7 +75,7 @@ I find it handy to launch programs in the background:
 
 Be aware that if the connection drops most probably the session will die too, leaving a behaded program. Also if the network changes things break too. The legend goes that only a very rare binary of `emacs` compiled with X support by [Richard Stallman](https://upload.wikimedia.org/wikipedia/commons/7/7b/Richard_Stallman_-_F%C3%AAte_de_l%27Humanit%C3%A9_2014_-_010.jpg) himself has the ability to switch around sessions.
 
-![XLogo is another superb application I challenge you to test]({{ site.url }}assets/imgs/xlogo.png?raw=true =500x500)
+![XLogo is another superb application I challenge you to test]({{ site.url }}assets/imgs/xlogo.png?raw=true =250x250)
 
 Congratulations, it is 1988 again!
 
