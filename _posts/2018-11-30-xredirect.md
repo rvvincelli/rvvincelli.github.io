@@ -36,7 +36,7 @@ We assume that the laptop and the box see each other eg they sit on the same hom
 
 When you open XQuartz you will not see anything but the server will start.
 
-![XQuartz on a shiny Mojave]({{ site.url }}assets/imgs/xquartz.png?raw=true)
+![XQuartz on a shiny Mojave]({{ site.url }}assets/imgs/xquartz.png?raw=true =500x500)
 
 By default, at least in recent XQuartz versions, over-the-wire TCP will be disabled; to turn it on:
 
@@ -56,7 +56,7 @@ where `192..` is the IP of the Linux box. If you omit the argument address or ho
 
 The host-based access is to be frowned upon because it not that secure, for example the request might be coming from an accepted router but be originating on some unwanted computer behind it. Completely fine for our test but keep in mind that a more secure approach - more secure in 80's terms at least - is the cookie-based access via the `.Xauthority` file: for a program to be accepted by the remote server this file must be dropped in the user home of the user starting the program. How you upload it that is your business, for example `scp`.
 
-![Lato sensu ecurity options]({{ site.url }}assets/imgs/options.png?raw=true)
+![Lato sensu ecurity options]({{ site.url }}assets/imgs/options.png?raw=true =500x500)
 
 On the Linux box, we want to configure the server display properly. Give:
 
@@ -74,6 +74,8 @@ I find it handy to launch programs in the background:
 `xeyes&`
 
 Be aware that if the connection drops most probably the session will die too, leaving a behaded program. Also if the network changes things break too. The legend goes that only a very rare binary of `emacs` compiled with X support by [Richard Stallman](https://upload.wikimedia.org/wikipedia/commons/7/7b/Richard_Stallman_-_F%C3%AAte_de_l%27Humanit%C3%A9_2014_-_010.jpg) himself has the ability to switch around sessions.
+
+![XLogo is another superb application I challenge you to test]({{ site.url }}assets/imgs/xlogo.png?raw=true =500x500)
 
 Congratulations, it is 1988 again!
 
