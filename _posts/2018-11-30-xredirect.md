@@ -52,11 +52,11 @@ Then, we want to allow incoming traffic from a specific IP only; open a Terminal
 
 where `192..` is the IP of the Linux box. If you omit the argument address or hostname, any client will be allowed; using a minus sign removes a specific client or blocks all.
 
-![alt text](xhost.png "Command on a nude terminal")
+![Command on a nude terminal]({{ site.url }}assets/imgs/xhost.png?raw=true =500x500)
 
 The host-based access is to be frowned upon because it not that secure, for example the request might be coming from an accepted router but be originating on some unwanted computer behind it. Completely fine for our test but keep in mind that a more secure approach - more secure in 80's terms at least - is the cookie-based access via the `.Xauthority` file: for a program to be accepted by the remote server this file must be dropped in the user home of the user starting the program. How you upload it that is your business, for example `scp`.
 
-![alt text](options.png "Lato sensu ecurity options")
+![Lato sensu ecurity options]({{ site.url }}assets/imgs/options.png?raw=true)
 
 On the Linux box, we want to configure the server display properly. Give:
 
