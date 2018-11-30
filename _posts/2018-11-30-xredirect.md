@@ -36,7 +36,7 @@ We assume that the laptop and the box see each other eg they sit on the same hom
 
 When you open XQuartz you will not see anything but the server will start.
 
-![alt text](xquartz.png "XQuartz on a shiny Mojave")
+![XQuartz on a shiny Mojave]({{ site.url }}assets/imgs/xquartz.png?raw=true)
 
 By default, at least in recent XQuartz versions, over-the-wire TCP will be disabled; to turn it on:
 
