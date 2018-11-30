@@ -36,7 +36,7 @@ We assume that the laptop and the box see each other eg they sit on the same hom
 
 When you open XQuartz you will not see anything but the server will start.
 
-![XQuartz on a shiny Mojave]({{ site.url }}assets/imgs/xquartz.png?raw=true =500x500)
+![XQuartz on a shiny Mojave]({{ site.url }}assets/imgs/xquartz.png?raw=true )
 
 By default, at least in recent XQuartz versions, over-the-wire TCP will be disabled; to turn it on:
 
@@ -76,6 +76,8 @@ I find it handy to launch programs in the background:
 Be aware that if the connection drops most probably the session will die too, leaving a behaded program. Also if the network changes things break too. The legend goes that only a very rare binary of `emacs` compiled with X support by [Richard Stallman](https://upload.wikimedia.org/wikipedia/commons/7/7b/Richard_Stallman_-_F%C3%AAte_de_l%27Humanit%C3%A9_2014_-_010.jpg) himself has the ability to switch around sessions.
 
 `xlogo` is another superb application I challenge you to test.
+![xlogo a gogo]({{ site.url }}assets/imgs/xlogo.png?raw=true)
+
 
 Anyways, congratulations, it is 1988 again!
 
