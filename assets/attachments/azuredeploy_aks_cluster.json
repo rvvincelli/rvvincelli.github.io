@@ -1,0 +1,328 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "resourceName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the Managed Cluster resource."
+            }
+        },
+        "dnsPrefix": {
+            "type": "string",
+            "defaultValue": "aksdnsname",
+            "metadata": {
+                "description": "Optional DNS prefix to use with hosted Kubernetes API server FQDN."
+            }
+        },
+        "osDiskSizeGB": {
+            "type": "int",
+            "defaultValue": 50,
+            "metadata": {
+                "description": "Disk size (in GB) to provision for each of the agent pool nodes. This value ranges from 0 to 1023. Specifying 0 will apply the default disk size for that agentVMSize."
+            },
+            "minValue": 0,
+            "maxValue": 1023
+        },
+        "agentCount": {
+            "type": "int",
+            "defaultValue": 1,
+            "metadata": {
+                "description": "The number of agent nodes for the cluster."
+            },
+            "minValue": 1,
+            "maxValue": 50
+        },
+        "agentVMSize": {
+            "type": "string",
+            "defaultValue": "Standard_D4_v2",
+            "metadata": {
+                "description": "The size of the Virtual Machine."
+            }
+        },
+        "servicePrincipalClientId": {
+            "metadata": {
+                "description": "Client ID (BDAP-AKS-server)"
+            },
+            "type": "securestring"
+        },
+        "servicePrincipalClientSecret": {
+            "metadata": {
+                "description": "The Service Principal Client Secret. (BDAP-AKS-server)"
+            },
+            "type": "securestring"
+        },
+        "osType": {
+            "type": "string",
+            "defaultValue": "Linux",
+            "allowedValues": [
+                "Linux"
+            ],
+            "metadata": {
+                "description": "The type of operating system."
+            }
+        },
+        "kubernetesVersion": {
+            "type": "string",
+            "defaultValue": "1.12.6",
+            "metadata": {
+                "description": "The version of Kubernetes."
+            }
+        },
+        "enableHttpApplicationRouting": {
+            "type": "bool",
+            "defaultValue": true,
+            "metadata": {
+                "description": "boolean flag to turn on and off of http application routing"
+            }
+        },
+        "networkPlugin": {
+            "type": "string",
+            "defaultValue": "azure",
+            "allowedValues": [
+                "azure",
+                "kubenet"
+            ],
+            "metadata": {
+                "description": "Network plugin used for building Kubernetes network."
+            }
+        },
+        "maxPods": {
+            "type": "int",
+            "defaultValue": 100,
+            "metadata": {
+                "description": "Maximum number of pods that can run on a node."
+            }
+        },
+        "enableRBAC": {
+            "type": "bool",
+            "defaultValue": true,
+            "metadata": {
+                "description": "boolean flag to turn on and off of RBAC"
+            }
+        },
+        "vnetname": {
+            "type": "string",
+            "defaultValue": "staging-bdap-aks-Vnet",
+            "metadata": {
+                "description": "Name of virtual network."
+            }
+        },
+        "vnetSubnetName": {
+            "type": "string",
+            "defaultValue": "staging-bdap-aks-subnet",
+            "metadata": {
+              "description": "Name of aks subnet."
+            }
+        },
+        "vnetAddressPrefix": {
+           "type": "string",
+           "defaultValue": "172.18.0.0/16",
+           "metadata": {
+             "description": "Address prefix for the vnet."
+           }
+        },
+          "vnetSubnetAddressPrefix": {
+            "type": "string",
+            "defaultValue": "172.18.0.0/16",
+            "metadata": {
+              "description": "Address prefix for the aks subnet."
+            }
+        },
+        "securityGroupName": {
+            "type": "string",
+            "defaultValue": "staging-bdap-aks-nsg",
+            "metadata": {
+              "description": "Name of aks network security group."
+            }
+          },
+        "serviceCidr": {
+            "type": "string",
+            "defaultValue": "10.0.0.0/16",
+            "metadata": {
+                "description": "A CIDR notation IP range from which to assign service cluster IPs."
+            }
+        },
+        "dnsServiceIP": {
+            "type": "string",
+            "defaultValue": "10.0.0.10",
+            "metadata": {
+                "description": "Containers DNS server IP address."
+            }
+        },
+        "dockerBridgeCidr": {
+            "type": "string",
+            "defaultValue": "172.17.0.1/16",
+            "metadata": {
+                "description": "A CIDR notation IP for Docker bridge."
+            }
+        },
+        "omsWorkspaceName": {
+            "type": "string",
+            "defaultValue": "staging-bdap-la",
+            "metadata": {
+                "description": "Specify the name of the OMS workspace"
+            }
+        },
+        "omsWorkspaceRG": {
+            "type": "string",
+            "defaultValue": "bdap-loganalytics-rg",
+            "metadata": {
+                "description": "Specify the name of the resource group containing the OMS workspace"
+            }
+        },
+        "clientAppID": {
+            "type": "string",
+            "metadata": {
+                "description": "Specify the id of the client (BDAP-AKS-client)"
+            }
+        },
+        "serverAppID": {
+            "type": "string",
+            "metadata": {
+                "description": "Specify the id of the server app (BDAP-AKS-server)"
+            }
+        },
+        "serverAppSecret": {
+            "type": "securestring",
+            "metadata": {
+                "description": "Specify the server app secret (BDAP-AKS-server)"
+            }
+        },
+        "tenantId": {
+            "type": "string",
+            "metadata": {
+                "description": "Specify the azure id tenant"
+            }
+        },
+        "log_analytics_enable": {
+            "type": "bool",
+            "defaultValue": "true",
+            "metadata": {
+                "description": "Specify true or false to enable log analytics"
+            }
+        }
+        
+    },
+    "variables": {
+        "omsWorkspaceId": "[resourceId(parameters('omsWorkspaceRG'),'Microsoft.OperationalInsights/workspaces',parameters('omsWorkspaceName'))]",
+        "vnetSubnetID": "[resourceId('Microsoft.Network/virtualNetworks/subnets',parameters('vnetname'),parameters('vnetSubnetName'))]"
+    },
+    "resources": [
+        {
+            "apiVersion": "2018-03-31",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', parameters('vnetname'))]"
+            ],
+            "type": "Microsoft.ContainerService/managedClusters",
+            "location": "[resourceGroup().location]",
+            "name": "[parameters('resourceName')]",
+            "properties": {
+                "kubernetesVersion": "[parameters('kubernetesVersion')]",
+                "enableRBAC": "[parameters('enableRBAC')]",
+                "dnsPrefix": "[parameters('dnsPrefix')]",
+                "addonProfiles": {
+                    "httpApplicationRouting": {
+                        "enabled": "[parameters('enableHttpApplicationRouting')]"
+                    },
+                    "omsagent": {
+                        "enabled": "[parameters('log_analytics_enable')]",
+                        "config": {
+                            "logAnalyticsWorkspaceResourceID": "[variables('omsWorkspaceId')]"
+                        }
+                    }
+                },
+                "agentPoolProfiles": [
+                    {
+                        "name": "agentpool",
+                        "osDiskSizeGB": "[parameters('osDiskSizeGB')]",
+                        "count": "[parameters('agentCount')]",
+                        "vmSize": "[parameters('agentVMSize')]",
+                        "osType": "[parameters('osType')]",
+                        "storageProfile": "ManagedDisks",
+                        "vnetSubnetID": "[variables('vnetSubnetID')]",
+                        "maxPods": "[parameters('maxPods')]"
+                    }
+                ],
+                "servicePrincipalProfile": {
+                    "clientId": "[parameters('servicePrincipalClientId')]",
+                    "Secret": "[parameters('servicePrincipalClientSecret')]"
+                },
+                "networkProfile": {
+                    "networkPlugin": "[parameters('networkPlugin')]",
+                    "serviceCidr": "[parameters('serviceCidr')]",
+                    "dnsServiceIP": "[parameters('dnsServiceIP')]",
+                    "dockerBridgeCidr": "[parameters('dockerBridgeCidr')]"
+                },
+                "aadProfile": {
+                    "clientAppID": "[parameters('clientAppID')]",
+                    "serverAppID": "[parameters('serverAppID')]",
+                    "serverAppSecret": "[parameters('serverAppSecret')]",
+                    "tenantID": "[parameters('tenantId')]"
+                }
+                
+            },
+            "tags": {
+                "Owner": "ReimOne@Gmail.com",
+                "Project": "AKSBlog",
+                "Costcenter": "AKSBlog",
+                "Displayname": "Kubernetes Cluster"
+            }
+        },        
+        {
+            "name": "[parameters('vnetname')]",
+            "type": "Microsoft.Network/virtualNetworks",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2018-08-01",
+            "dependsOn": [
+        	    "[parameters('securityGroupName')]"
+            ],
+            "tags": {
+                "displayName": "AKS-VirtualNetwork",
+                "owner":"Riccardo@Gmail.com",
+                "costcenter":"AKSBlog",
+                "project":"AKSBlog"
+            },
+            "properties": {
+            "addressSpace": {
+                "addressPrefixes": [
+                    "[parameters('vnetAddressPrefix')]"
+                ]
+            },
+            "subnets": [
+            {
+                "name": "[parameters('vnetSubnetName')]",
+                "properties": {
+                    "addressPrefix": "[parameters('vnetSubnetAddressPrefix')]",
+                    "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('securityGroupName'))]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "apiVersion": "2017-11-01",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "name": "[parameters('securityGroupName')]",
+            "tags": {
+              "displayName": "AKS NSG",
+              "owner":"ReimOne@Gmail.com",
+              "costcenter":"AKSBlog",
+              "project":"AKSBlog"
+            },
+            "location": "[resourceGroup().location]",
+            "properties": {
+              "securityRules": [                             
+              ]
+            }
+        }
+    ],
+    "outputs": {
+        "controlPlaneFQDN": {
+            "type": "string",
+            "value": "[reference(concat('Microsoft.ContainerService/managedClusters/', parameters('resourceName'))).fqdn]"
+        }
+    }
+}

@@ -1,0 +1,15 @@
+# This role binding allows "${userName}" to read pods in the "${userName}-personal-namespace" namespace.
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: ${userName}-personal-role-binding
+  namespace: ${userName}-personal-namespace
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role 
+  name: ${userName}-personal-role 
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: ${userAADID} 
+  namespace: ${userName}-personal-namespace
